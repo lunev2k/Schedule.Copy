@@ -4,9 +4,9 @@
     android:layout_height="match_parent"
     tools:context="com.lunev2k.schedule.fragments.LearnersFragment">
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvLearners"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Learners Fragment" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>

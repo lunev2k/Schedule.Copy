@@ -15,7 +15,7 @@ public class RangeDateUtil {
     }
 
     public static Date getStartDate(Context context) {
-        Date date = new Date(PrefUtils.getInstance(context).getLong("startDate"));
+        Date date = new Date(PrefsUtils.getInstance(context).getLong("startDate"));
         if (date.getTime() == 0) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DAY_OF_MONTH, -7);
@@ -28,7 +28,7 @@ public class RangeDateUtil {
     }
 
     public static Date getFinishDate(Context context) {
-        Date date = new Date(PrefUtils.getInstance(context).getLong("finishDate"));
+        Date date = new Date(PrefsUtils.getInstance(context).getLong("finishDate"));
         if (date.getTime() == 0) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DAY_OF_MONTH, 7);

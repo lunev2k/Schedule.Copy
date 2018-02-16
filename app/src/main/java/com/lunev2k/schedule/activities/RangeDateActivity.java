@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.fragments.dialogs.DatePickerFragment;
 import com.lunev2k.schedule.utils.DateTimeUtil;
-import com.lunev2k.schedule.utils.PrefUtils;
+import com.lunev2k.schedule.utils.PrefsUtils;
 import com.lunev2k.schedule.utils.RangeDateUtil;
 
 import java.util.Calendar;
@@ -76,8 +76,8 @@ public class RangeDateActivity extends AppCompatActivity {
             Toast.makeText(view.getContext(), R.string.error_range_date, Toast.LENGTH_SHORT).show();
             return;
         }
-        PrefUtils.getInstance(this).putLong("startDate", startDatetime.getTimeInMillis());
-        PrefUtils.getInstance(this).putLong("finishDate", finishDate.getTimeInMillis());
+        PrefsUtils.getInstance(this).putLong("startDate", startDatetime.getTimeInMillis());
+        PrefsUtils.getInstance(this).putLong("finishDate", finishDate.getTimeInMillis());
         finish();
     }
 

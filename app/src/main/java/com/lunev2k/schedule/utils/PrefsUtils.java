@@ -11,19 +11,19 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by lunev on 16.02.2018.
  */
 
-public class PrefUtils {
+public class PrefsUtils {
 
-    private static PrefUtils _preferences;
+    private static PrefsUtils _preferences;
     private Preferences preferences;
     private Context context;
 
-    private PrefUtils(Context context) {
+    private PrefsUtils(Context context) {
         this.context = context;
     }
 
-    public static PrefUtils getInstance(Context context) {
+    public static PrefsUtils getInstance(Context context) {
         if (_preferences == null) {
-            _preferences = new PrefUtils(context);
+            _preferences = new PrefsUtils(context);
         }
         return _preferences;
     }

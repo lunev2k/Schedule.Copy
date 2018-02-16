@@ -14,7 +14,8 @@ import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.fragments.LearnersFragment;
 import com.lunev2k.schedule.fragments.LessonsFragment;
 import com.lunev2k.schedule.fragments.TotalsFragment;
-import com.lunev2k.schedule.utils.PrefUtils;
+import com.lunev2k.schedule.model.Learner;
+import com.lunev2k.schedule.utils.PrefsUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +23,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements
         LessonsFragment.OnLessonsFragmentItemClickListener,
         TotalsFragment.OnTotalsFragmentItemClickListener,
-        LearnersFragment.OnLearnersFragmentItemClickListener {
+        LearnersFragment.OnLearnerItemClickListener {
 
     private static final String NAVIGATION_ID = "navigationId";
     @BindView(R.id.navigation)
@@ -110,14 +111,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLearnersFragmentItemClickListener(Uri uri) {
-
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
-        int id = PrefUtils.getInstance(this).getInt(NAVIGATION_ID);
+        int id = PrefsUtils.getInstance(this).getInt(NAVIGATION_ID);
         navigation.getMenu().getItem(id).setChecked(true);
         navigation.getMenu().performIdentifierAction(getNavigationId(id), 0);
     }
@@ -126,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onStop() {
         super.onStop();
         int id = getSelectedItem();
-        PrefUtils.getInstance(this).putInt(NAVIGATION_ID, id);
+        PrefsUtils.getInstance(this).putInt(NAVIGATION_ID, id);
     }
 
     private void initView() {
@@ -160,5 +156,10 @@ public class MainActivity extends AppCompatActivity implements
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame, fragment)
                 .commit();
+    }
+
+    @Override
+    public void onLearnerItemClick(Learner learner) {
+
     }
 }
