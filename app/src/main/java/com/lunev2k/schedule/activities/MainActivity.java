@@ -1,5 +1,6 @@
-package com.lunev2k.schedule;
+package com.lunev2k.schedule.activities;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.fragments.LearnersFragment;
 import com.lunev2k.schedule.fragments.LessonsFragment;
 import com.lunev2k.schedule.fragments.TotalsFragment;
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements
 //                startActivity(new Intent(this, AddLessonActivity.class));
                 break;
             case R.id.action_range_date:
-//                startActivity(new Intent(this, RangeDateActivity.class));
+                startActivity(new Intent(this, RangeDateActivity.class));
                 break;
         }
 

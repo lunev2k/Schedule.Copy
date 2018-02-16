@@ -39,4 +39,16 @@ public class PrefUtils {
         ed.putInt(name, value);
         ed.apply();
     }
+
+    public long getLong(String name) {
+        SharedPreferences preferences = context.getSharedPreferences("settings", MODE_PRIVATE);
+        return preferences.getLong(name, 0);
+    }
+
+    public void putLong(String name, long value) {
+        SharedPreferences preferences = context.getSharedPreferences("settings", MODE_PRIVATE);
+        SharedPreferences.Editor ed = preferences.edit();
+        ed.putLong(name, value);
+        ed.apply();
+    }
 }

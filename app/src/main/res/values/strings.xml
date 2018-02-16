@@ -6,7 +6,8 @@
     <string name="title_add_lesson">Add Lesson</string>
     <string name="title_add_learner">Add Learner</string>
     <string name="title_range_date">Range Date</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_range_date">Range Date</string>
+    <string name="hint_start_date">Start Date</string>
+    <string name="hint_finish_date">Finish Date</string>
+    <string name="error_range_date">Finish Date less Start Date</string>
 </resources>
