@@ -10,4 +10,9 @@
     <string name="hint_start_date">Start Date</string>
     <string name="hint_finish_date">Finish Date</string>
     <string name="error_range_date">Finish Date less Start Date</string>
+    <string name="title_activity_add_learner">Add Learner</string>
+    <string name="hint_learner_name">Learner Name</string>
+    <string name="hint_learner_pay">Learner Pay</string>
+    <string name="error_learner_name">Empty Learner Name</string>
+    <string name="error_learner_pay">Empty Learner Pay</string>
 </resources>

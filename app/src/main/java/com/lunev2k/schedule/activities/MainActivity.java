@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements
 
         switch (id) {
             case R.id.action_add_learner:
-//                startActivity(new Intent(this, AddLearnerActivity.class));
+                startActivity(new Intent(this, AddLearnerActivity.class));
                 break;
             case R.id.action_add_lesson:
 //                startActivity(new Intent(this, AddLessonActivity.class));
