@@ -5,10 +5,6 @@ import android.content.Context;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by lunev on 16.02.2018.
- */
-
 public class RangeDateUtil {
 
     private RangeDateUtil() {

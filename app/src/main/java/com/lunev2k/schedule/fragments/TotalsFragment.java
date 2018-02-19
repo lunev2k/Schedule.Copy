@@ -1,46 +1,57 @@
 package com.lunev2k.schedule.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.lunev2k.schedule.R;
+import com.lunev2k.schedule.adapters.TotalsAdapter;
+import com.lunev2k.schedule.database.DatabaseRepository;
+import com.lunev2k.schedule.database.Repository;
+import com.lunev2k.schedule.model.TotalItem;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class TotalsFragment extends Fragment {
 
-    private OnTotalsFragmentItemClickListener listener;
+    @BindView(R.id.rvTotals)
+    RecyclerView rvTotals;
+
+    private OnTotalItemClickListener listener;
 
     public TotalsFragment() {
-        // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_totals, container, false);
+        View view = inflater.inflate(R.layout.fragment_totals, container, false);
+        ButterKnife.bind(this, view);
+        rvTotals.setLayoutManager(new LinearLayoutManager(getContext()));
+        return view;
     }
 
-/*    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }*/
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        loadData();
+    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnTotalsFragmentItemClickListener) {
-            listener = (OnTotalsFragmentItemClickListener) context;
+        if (context instanceof OnTotalItemClickListener) {
+            listener = (OnTotalItemClickListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnTotalsFragmentItemClickListener");
+                    + " must implement OnTotalItemClickListener");
         }
     }
 
@@ -50,8 +61,14 @@ public class TotalsFragment extends Fragment {
         listener = null;
     }
 
-    public interface OnTotalsFragmentItemClickListener {
-        // TODO: Update argument type and name
-        void onTotalsFragmentItemClickListener(Uri uri);
+    private void loadData() {
+        Repository repository = new DatabaseRepository(getContext());
+        TotalsAdapter adapter = new TotalsAdapter(repository.getTotals(),
+                item -> listener.onTotalItemClickListener(item));
+        rvTotals.setAdapter(adapter);
+    }
+
+    public interface OnTotalItemClickListener {
+        void onTotalItemClickListener(TotalItem total);
     }
 }

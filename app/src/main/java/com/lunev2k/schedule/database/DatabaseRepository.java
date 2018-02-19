@@ -4,12 +4,16 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.lunev2k.schedule.model.LearnersItem;
 import com.lunev2k.schedule.model.LessonsItem;
+import com.lunev2k.schedule.model.TotalItem;
+import com.lunev2k.schedule.utils.DateTimeUtil;
 import com.lunev2k.schedule.utils.PrefsUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -84,6 +88,37 @@ public class DatabaseRepository implements Repository {
             list.add(lesson);
         }
         c.close();
+        return list;
+    }
+
+    @Override
+    public List<TotalItem> getTotals() {
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.setTime(new Date(PrefsUtils.getInstance(context).getLong(START_DATE)));
+        Calendar finishCalendar = Calendar.getInstance();
+        finishCalendar.setTime(new Date(PrefsUtils.getInstance(context).getLong(FINISH_DATE)));
+        List<TotalItem> list = new ArrayList<>();
+        while (startCalendar.before(finishCalendar)) {
+            Log.d(getClass().getName(), DateTimeUtil.getFormatDateTime(startCalendar.getTime()));
+            Calendar calendar = (Calendar) startCalendar.clone();
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 59);
+            calendar.set(Calendar.SECOND, 59);
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            String sqlQuery = "select count(*) from lesson where date between ? and ?";
+            Cursor c = db.rawQuery(sqlQuery, new String[]{
+                    String.valueOf(startCalendar.getTimeInMillis()),
+                    String.valueOf(calendar.getTimeInMillis())
+            });
+            int count = 0;
+            if (c.moveToFirst()) {
+                count = c.getInt(0);
+            }
+            TotalItem item = new TotalItem(startCalendar.getTime(), count);
+            list.add(item);
+            c.close();
+            startCalendar.add(Calendar.DATE, 1);
+        }
         return list;
     }
 }

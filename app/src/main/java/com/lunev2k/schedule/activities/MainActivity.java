@@ -1,7 +1,6 @@
 package com.lunev2k.schedule.activities;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -16,6 +15,7 @@ import com.lunev2k.schedule.fragments.LessonsFragment;
 import com.lunev2k.schedule.fragments.TotalsFragment;
 import com.lunev2k.schedule.model.LearnersItem;
 import com.lunev2k.schedule.model.LessonsItem;
+import com.lunev2k.schedule.model.TotalItem;
 import com.lunev2k.schedule.utils.PrefsUtils;
 
 import butterknife.BindView;
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements
         LessonsFragment.OnLessonItemClickListener,
-        TotalsFragment.OnTotalsFragmentItemClickListener,
+        TotalsFragment.OnTotalItemClickListener,
         LearnersFragment.OnLearnerItemClickListener {
 
     private static final String NAVIGATION_ID = "navigationId";
@@ -102,11 +102,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onTotalsFragmentItemClickListener(Uri uri) {
-
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
         int id = PrefsUtils.getInstance(this).getInt(NAVIGATION_ID);
@@ -161,6 +156,11 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onLessonItemClickListener(LessonsItem lesson) {
+
+    }
+
+    @Override
+    public void onTotalItemClickListener(TotalItem total) {
 
     }
 }
