@@ -7,17 +7,23 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.lunev2k.schedule.model.LearnersItem;
 import com.lunev2k.schedule.model.LessonsItem;
+import com.lunev2k.schedule.utils.PrefsUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.lunev2k.schedule.utils.Constants.FINISH_DATE;
+import static com.lunev2k.schedule.utils.Constants.START_DATE;
+
 public class DatabaseRepository implements Repository {
 
+    private final Context context;
     private DbHelper dbHelper;
 
     public DatabaseRepository(Context context) {
         dbHelper = new DbHelper(context);
+        this.context = context;
     }
 
     @Override
@@ -63,8 +69,11 @@ public class DatabaseRepository implements Repository {
     @Override
     public List<LessonsItem> getLessons() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String sqlQuery = "SELECT ls._id, date, name, cost FROM lesson ls join study st on st._id = ls.study join learner lr on lr._id = st.learner ORDER BY date";
-        Cursor c = db.rawQuery(sqlQuery, null);
+        String sqlQuery = "SELECT ls._id, date, name, cost FROM lesson ls join study st on st._id = ls.study join learner lr on lr._id = st.learner WHERE date BETWEEN ? AND ? ORDER BY date";
+        Cursor c = db.rawQuery(sqlQuery, new String[]{
+                String.valueOf(PrefsUtils.getInstance(context).getLong(START_DATE)),
+                String.valueOf(PrefsUtils.getInstance(context).getLong(FINISH_DATE))
+        });
         List<LessonsItem> list = new ArrayList<>();
         while (c.moveToNext()) {
             long id = c.getLong(c.getColumnIndex(DatabaseContract.LessonTable._ID));

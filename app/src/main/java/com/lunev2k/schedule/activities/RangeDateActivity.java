@@ -20,8 +20,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.lunev2k.schedule.utils.Constants.FINISH_DATE;
+import static com.lunev2k.schedule.utils.Constants.START_DATE;
+
 public class RangeDateActivity extends AppCompatActivity {
 
+    public static final String YEAR = "year";
+    public static final String MONTH = "month";
+    public static final String DAY = "day";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -50,9 +56,9 @@ public class RangeDateActivity extends AppCompatActivity {
     public void etStartDateClick(View view) {
         DatePickerFragment date = new DatePickerFragment();
         Bundle args = new Bundle();
-        args.putInt("year", startDatetime.get(Calendar.YEAR));
-        args.putInt("month", startDatetime.get(Calendar.MONTH));
-        args.putInt("day", startDatetime.get(Calendar.DAY_OF_MONTH));
+        args.putInt(YEAR, startDatetime.get(Calendar.YEAR));
+        args.putInt(MONTH, startDatetime.get(Calendar.MONTH));
+        args.putInt(DAY, startDatetime.get(Calendar.DAY_OF_MONTH));
         date.setArguments(args);
         date.setCallBack(onStartDate);
         date.show(getSupportFragmentManager(), "Date Picker");
@@ -62,9 +68,9 @@ public class RangeDateActivity extends AppCompatActivity {
     public void etFinishDateClick(View view) {
         DatePickerFragment date = new DatePickerFragment();
         Bundle args = new Bundle();
-        args.putInt("year", finishDate.get(Calendar.YEAR));
-        args.putInt("month", finishDate.get(Calendar.MONTH));
-        args.putInt("day", finishDate.get(Calendar.DAY_OF_MONTH));
+        args.putInt(YEAR, finishDate.get(Calendar.YEAR));
+        args.putInt(MONTH, finishDate.get(Calendar.MONTH));
+        args.putInt(DAY, finishDate.get(Calendar.DAY_OF_MONTH));
         date.setArguments(args);
         date.setCallBack(onFinishDate);
         date.show(getSupportFragmentManager(), "Date Picker");
@@ -76,8 +82,8 @@ public class RangeDateActivity extends AppCompatActivity {
             Toast.makeText(view.getContext(), R.string.error_range_date, Toast.LENGTH_SHORT).show();
             return;
         }
-        PrefsUtils.getInstance(this).putLong("startDate", startDatetime.getTimeInMillis());
-        PrefsUtils.getInstance(this).putLong("finishDate", finishDate.getTimeInMillis());
+        PrefsUtils.getInstance(this).putLong(START_DATE, startDatetime.getTimeInMillis());
+        PrefsUtils.getInstance(this).putLong(FINISH_DATE, finishDate.getTimeInMillis());
         finish();
     }
 
