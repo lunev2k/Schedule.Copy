@@ -14,14 +14,15 @@ import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.fragments.LearnersFragment;
 import com.lunev2k.schedule.fragments.LessonsFragment;
 import com.lunev2k.schedule.fragments.TotalsFragment;
-import com.lunev2k.schedule.model.Learner;
+import com.lunev2k.schedule.model.LearnersItem;
+import com.lunev2k.schedule.model.LessonsItem;
 import com.lunev2k.schedule.utils.PrefsUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements
-        LessonsFragment.OnLessonsFragmentItemClickListener,
+        LessonsFragment.OnLessonItemClickListener,
         TotalsFragment.OnTotalsFragmentItemClickListener,
         LearnersFragment.OnLearnerItemClickListener {
 
@@ -101,11 +102,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLessonsFragmentItemClickListener(Uri uri) {
-
-    }
-
-    @Override
     public void onTotalsFragmentItemClickListener(Uri uri) {
 
     }
@@ -159,7 +155,12 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLearnerItemClick(Learner learner) {
+    public void onLearnerItemClick(LearnersItem learner) {
+
+    }
+
+    @Override
+    public void onLessonItemClickListener(LessonsItem lesson) {
 
     }
 }

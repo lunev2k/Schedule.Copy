@@ -7,19 +7,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lunev2k.schedule.R;
-import com.lunev2k.schedule.model.LearnersItem;
+import com.lunev2k.schedule.model.LessonsItem;
+import com.lunev2k.schedule.utils.DateTimeUtil;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LearnersAdapter extends RecyclerView.Adapter<LearnersAdapter.ViewHolder> {
+public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.ViewHolder> {
 
-    private List<LearnersItem> list;
+    private List<LessonsItem> list;
     private OnItemClickListener listener;
 
-    public LearnersAdapter(List<LearnersItem> list, OnItemClickListener listener) {
+    public LessonsAdapter(List<LessonsItem> list, OnItemClickListener listener) {
         this.list = list;
         this.listener = listener;
     }
@@ -27,15 +28,16 @@ public class LearnersAdapter extends RecyclerView.Adapter<LearnersAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_learners, parent, false);
+                .inflate(R.layout.item_lessons, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.bind(list.get(position), listener);
+        holder.tvLessonDate.setText(DateTimeUtil.getFormatDate(list.get(position).getDate()));
         holder.tvLearnerName.setText(list.get(position).getName());
-        holder.tvLearnerCost.setText(String.valueOf(list.get(position).getPay()));
+        holder.tvLessonCost.setText(String.valueOf(list.get(position).getCost()));
     }
 
     @Override
@@ -44,23 +46,25 @@ public class LearnersAdapter extends RecyclerView.Adapter<LearnersAdapter.ViewHo
     }
 
     public interface OnItemClickListener {
-        void onItemClick(LearnersItem item);
+        void onItemClick(LessonsItem item);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.tvLessonDate)
+        TextView tvLessonDate;
         @BindView(R.id.tvLearnerName)
         TextView tvLearnerName;
-        @BindView(R.id.tvLearnerCost)
-        TextView tvLearnerCost;
+        @BindView(R.id.tvLessonCost)
+        TextView tvLessonCost;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(LearnersItem learner, OnItemClickListener listener) {
-            itemView.setOnClickListener(view -> listener.onItemClick(learner));
+        public void bind(LessonsItem lesson, OnItemClickListener listener) {
+            itemView.setOnClickListener(view -> listener.onItemClick(lesson));
         }
     }
 }

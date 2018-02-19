@@ -5,14 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.lunev2k.schedule.model.Learner;
+import com.lunev2k.schedule.model.LearnersItem;
+import com.lunev2k.schedule.model.LessonsItem;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-/**
- * Created by lunev on 16.02.2018.
- */
 
 public class DatabaseRepository implements Repository {
 
@@ -33,7 +31,7 @@ public class DatabaseRepository implements Repository {
     }
 
     @Override
-    public List<Learner> getLearners() {
+    public List<LearnersItem> getLearners() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = {
                 DatabaseContract.LearnerTable._ID,
@@ -50,13 +48,31 @@ public class DatabaseRepository implements Repository {
                 null,
                 sortOrder
         );
-        List<Learner> list = new ArrayList<>();
+        List<LearnersItem> list = new ArrayList<>();
         while (c.moveToNext()) {
             long id = c.getLong(c.getColumnIndex(DatabaseContract.LearnerTable._ID));
             String name = c.getString(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_NAME));
             int pay = c.getInt(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_PAY));
-            Learner learner = new Learner(id, name, pay);
+            LearnersItem learner = new LearnersItem(id, name, pay);
             list.add(learner);
+        }
+        c.close();
+        return list;
+    }
+
+    @Override
+    public List<LessonsItem> getLessons() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String sqlQuery = "SELECT ls._id, date, name, cost FROM lesson ls join study st on st._id = ls.study join learner lr on lr._id = st.learner ORDER BY date";
+        Cursor c = db.rawQuery(sqlQuery, null);
+        List<LessonsItem> list = new ArrayList<>();
+        while (c.moveToNext()) {
+            long id = c.getLong(c.getColumnIndex(DatabaseContract.LessonTable._ID));
+            Date date = new Date(c.getLong(c.getColumnIndex(DatabaseContract.LessonTable.COLUMN_NAME_DATE)));
+            String name = c.getString(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_NAME));
+            int pay = c.getInt(c.getColumnIndex(DatabaseContract.LessonTable.COLUMN_NAME_COST));
+            LessonsItem lesson = new LessonsItem(id, date, name, pay);
+            list.add(lesson);
         }
         c.close();
         return list;

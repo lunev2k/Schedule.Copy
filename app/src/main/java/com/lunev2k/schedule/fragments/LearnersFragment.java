@@ -14,7 +14,7 @@ import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.adapters.LearnersAdapter;
 import com.lunev2k.schedule.database.DatabaseRepository;
 import com.lunev2k.schedule.database.Repository;
-import com.lunev2k.schedule.model.Learner;
+import com.lunev2k.schedule.model.LearnersItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,6 +69,6 @@ public class LearnersFragment extends Fragment {
     }
 
     public interface OnLearnerItemClickListener {
-        void onLearnerItemClick(Learner learner);
+        void onLearnerItemClick(LearnersItem learner);
     }
 }
