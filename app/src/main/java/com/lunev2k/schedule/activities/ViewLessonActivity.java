@@ -6,6 +6,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -48,6 +50,28 @@ public class ViewLessonActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initView();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.view_lesson, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_edit_lesson:
+                break;
+            case R.id.action_delete_lesson:
+                break;
+            case R.id.action_move_lesson:
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void initView() {
