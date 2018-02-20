@@ -37,7 +37,7 @@ public class LessonsAdapter extends RecyclerView.Adapter<LessonsAdapter.ViewHold
         holder.bind(list.get(position), listener);
         holder.tvLessonDate.setText(DateTimeUtil.getFormatDate(list.get(position).getDate()));
         holder.tvLearnerName.setText(list.get(position).getName());
-        holder.tvLessonCost.setText(String.valueOf(list.get(position).getCost()));
+        holder.tvLessonCost.setText(list.get(position).getCost() > 0 ? String.valueOf(list.get(position).getCost()) : "-");
     }
 
     @Override

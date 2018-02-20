@@ -2,10 +2,6 @@ package com.lunev2k.schedule.database;
 
 import android.provider.BaseColumns;
 
-/**
- * Created by lunev on 16.02.2018.
- */
-
 public class DatabaseContract {
     private static final String TEXT_TYPE = " TEXT";
     private static final String INT_TYPE = " INT";
@@ -21,7 +17,6 @@ public class DatabaseContract {
     public static final String SQL_CREATE_STUDIES =
             "CREATE TABLE " + StudyTable.TABLE_NAME + " (" +
                     StudyTable._ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
-                    StudyTable.COLUMN_NAME_START_DATE + INT_TYPE + COMMA_SEP +
                     StudyTable.COLUMN_NAME_FINISH_DATE + INT_TYPE + COMMA_SEP +
                     StudyTable.COLUMN_NAME_LEARNER + INT_TYPE +
                     " )";

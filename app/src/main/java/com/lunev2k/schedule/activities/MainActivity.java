@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements
                 startActivity(new Intent(this, AddLearnerActivity.class));
                 break;
             case R.id.action_add_lesson:
-//                startActivity(new Intent(this, AddLessonActivity.class));
+                startActivity(new Intent(this, AddLessonActivity.class));
                 break;
             case R.id.action_range_date:
                 startActivity(new Intent(this, RangeDateActivity.class));

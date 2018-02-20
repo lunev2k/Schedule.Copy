@@ -63,7 +63,7 @@ public class LearnersFragment extends Fragment {
 
     private void loadData() {
         Repository repository = new DatabaseRepository(getContext());
-        LearnersAdapter adapter = new LearnersAdapter(repository.getLearners(),
+        LearnersAdapter adapter = new LearnersAdapter(repository.getLearnerItems(),
                 item -> listener.onLearnerItemClick(item));
         rvLearners.setAdapter(adapter);
     }

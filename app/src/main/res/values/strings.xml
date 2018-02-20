@@ -15,4 +15,13 @@
     <string name="hint_learner_pay">Learner Pay</string>
     <string name="error_learner_name">Empty Learner Name</string>
     <string name="error_learner_pay">Empty Learner Pay</string>
+    <string name="title_activity_add_lesson">Add Lesson</string>
+    <string name="hint_date_lesson">Start Date</string>
+    <string name="hint_time_lesson">Start Time</string>
+    <string name="title_repeat">Repeat</string>
+    <string name="hint_end_date_repeat">Finish Date</string>
+    <string name="title_choice_learner">Choice Learner</string>
+    <string name="error_start_date">Error Start Date</string>
+    <string name="error_start_time">Error Start Time</string>
+    <string name="error_finish_date">Error Finish Date</string>
 </resources>

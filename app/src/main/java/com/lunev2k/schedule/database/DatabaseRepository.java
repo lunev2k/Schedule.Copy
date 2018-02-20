@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.lunev2k.schedule.model.Learner;
 import com.lunev2k.schedule.model.LearnersItem;
+import com.lunev2k.schedule.model.Lesson;
 import com.lunev2k.schedule.model.LessonsItem;
 import com.lunev2k.schedule.model.TotalItem;
 import com.lunev2k.schedule.utils.DateTimeUtil;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static com.lunev2k.schedule.utils.Constants.FINISH_DATE;
 import static com.lunev2k.schedule.utils.Constants.START_DATE;
@@ -36,12 +39,41 @@ public class DatabaseRepository implements Repository {
         ContentValues cv = new ContentValues();
         cv.put(DatabaseContract.LearnerTable.COLUMN_NAME_NAME, name);
         cv.put(DatabaseContract.LearnerTable.COLUMN_NAME_PAY, pay);
-        long id = db.insert(DatabaseContract.LearnerTable.TABLE_NAME, null, cv);
-        return id;
+        return db.insert(DatabaseContract.LearnerTable.TABLE_NAME, null, cv);
     }
 
     @Override
-    public List<LearnersItem> getLearners() {
+    public List<Learner> getLearners() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String[] projection = {
+                DatabaseContract.LearnerTable._ID,
+                DatabaseContract.LearnerTable.COLUMN_NAME_NAME,
+                DatabaseContract.LearnerTable.COLUMN_NAME_PAY
+        };
+        String sortOrder = DatabaseContract.LearnerTable.COLUMN_NAME_NAME;
+        Cursor c = db.query(
+                DatabaseContract.LearnerTable.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                sortOrder
+        );
+        List<Learner> list = new ArrayList<>();
+        while (c.moveToNext()) {
+            long id = c.getLong(c.getColumnIndex(DatabaseContract.LearnerTable._ID));
+            String name = c.getString(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_NAME));
+            int pay = c.getInt(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_PAY));
+            Learner learner = new Learner(id, name, pay);
+            list.add(learner);
+        }
+        c.close();
+        return list;
+    }
+
+    @Override
+    public List<LearnersItem> getLearnerItems() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = {
                 DatabaseContract.LearnerTable._ID,
@@ -72,20 +104,23 @@ public class DatabaseRepository implements Repository {
 
     @Override
     public List<LessonsItem> getLessons() {
+        long begDate = PrefsUtils.getInstance(context).getLong(START_DATE);
+        long endDate = PrefsUtils.getInstance(context).getLong(FINISH_DATE);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String sqlQuery = "SELECT ls._id, date, name, cost FROM lesson ls join study st on st._id = ls.study join learner lr on lr._id = st.learner WHERE date BETWEEN ? AND ? ORDER BY date";
-        Cursor c = db.rawQuery(sqlQuery, new String[]{
-                String.valueOf(PrefsUtils.getInstance(context).getLong(START_DATE)),
-                String.valueOf(PrefsUtils.getInstance(context).getLong(FINISH_DATE))
-        });
+        String sqlQuery = String.format(Locale.getDefault(),
+                "SELECT ls._id, date, name, cost FROM lesson ls join study st on st._id = ls.study join learner lr on lr._id = st.learner WHERE ls.date BETWEEN %d AND %d ORDER BY date",
+                begDate, endDate);
+        Cursor c = db.rawQuery(sqlQuery, null);
         List<LessonsItem> list = new ArrayList<>();
-        while (c.moveToNext()) {
-            long id = c.getLong(c.getColumnIndex(DatabaseContract.LessonTable._ID));
-            Date date = new Date(c.getLong(c.getColumnIndex(DatabaseContract.LessonTable.COLUMN_NAME_DATE)));
-            String name = c.getString(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_NAME));
-            int pay = c.getInt(c.getColumnIndex(DatabaseContract.LessonTable.COLUMN_NAME_COST));
-            LessonsItem lesson = new LessonsItem(id, date, name, pay);
-            list.add(lesson);
+        if (c.moveToFirst()) {
+            do {
+                long id = c.getLong(c.getColumnIndex(DatabaseContract.LessonTable._ID));
+                Date date = new Date(c.getLong(c.getColumnIndex(DatabaseContract.LessonTable.COLUMN_NAME_DATE)));
+                String name = c.getString(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_NAME));
+                int pay = c.getInt(c.getColumnIndex(DatabaseContract.LessonTable.COLUMN_NAME_COST));
+                LessonsItem lesson = new LessonsItem(id, date, name, pay);
+                list.add(lesson);
+            } while (c.moveToNext());
         }
         c.close();
         return list;
@@ -120,5 +155,55 @@ public class DatabaseRepository implements Repository {
             startCalendar.add(Calendar.DATE, 1);
         }
         return list;
+    }
+
+    @Override
+    public void addLessons(Date date, Learner learner, List<Lesson> lessons) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            ContentValues cvStudy = new ContentValues();
+            if (date == null) {
+                cvStudy.putNull(DatabaseContract.StudyTable.COLUMN_NAME_FINISH_DATE);
+            } else {
+                cvStudy.put(DatabaseContract.StudyTable.COLUMN_NAME_FINISH_DATE, date.getTime());
+            }
+            cvStudy.put(DatabaseContract.StudyTable.COLUMN_NAME_LEARNER, learner.getId());
+            long idStudy = db.insert(DatabaseContract.StudyTable.TABLE_NAME, null, cvStudy);
+            for (Lesson lesson : lessons) {
+                ContentValues cvLesson = new ContentValues();
+                cvLesson.put(DatabaseContract.LessonTable.COLUMN_NAME_DATE, lesson.getDate().getTime());
+                cvLesson.put(DatabaseContract.LessonTable.COLUMN_NAME_STUDY, idStudy);
+                db.insert(DatabaseContract.LessonTable.TABLE_NAME, null, cvLesson);
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    @Override
+    public Learner getLearner(long id) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String[] projection = {
+                DatabaseContract.LearnerTable.COLUMN_NAME_NAME,
+                DatabaseContract.LearnerTable.COLUMN_NAME_PAY
+        };
+        String selection = DatabaseContract.LearnerTable._ID + " = ?";
+        String[] selectionArgs = new String[]{Long.toString(id)};
+        Cursor c = db.query(
+                DatabaseContract.LearnerTable.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+        c.moveToFirst();
+        String name = c.getString(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_NAME));
+        int pay = c.getInt(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_PAY));
+        c.close();
+        return new Learner(id, name, pay);
     }
 }
