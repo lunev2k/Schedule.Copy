@@ -68,7 +68,7 @@ public class ViewLessonActivity extends AppCompatActivity {
         tvLearnerName.setText(lesson.getLearner().getName());
         tvLessonCost.setText(lesson.getCost() > 0 ? String.valueOf(lesson.getCost()) : "-");
         if (lesson.getStudy().getDate() != null) {
-            tvRepeat.setText(String.format("Повторение до %s", DateTimeUtil.getFormatDate(lesson.getStudy().getDate())));
+            tvRepeat.setText(String.format(getString(R.string.text_repeat), DateTimeUtil.getFormatDate(lesson.getStudy().getDate())));
         }
     }
 
