@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_edit_lesson"
+        android:icon="@drawable/ic_mode_edit_white_24px"
+        android:title="@string/title_edit_lesson"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_delete_lesson"
+        android:icon="@drawable/ic_delete_white_24px"
+        android:title="@string/title_delete_lesson"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_move_lesson"
+        android:icon="@drawable/ic_forward_white_24px"
+        android:title="@string/title_move_lesson"
+        app:showAsAction="always" />
+</menu>

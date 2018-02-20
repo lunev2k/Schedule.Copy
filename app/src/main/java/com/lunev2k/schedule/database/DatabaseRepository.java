@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.lunev2k.schedule.model.Learner;
 import com.lunev2k.schedule.model.LearnersItem;
@@ -12,7 +11,6 @@ import com.lunev2k.schedule.model.Lesson;
 import com.lunev2k.schedule.model.LessonsItem;
 import com.lunev2k.schedule.model.Study;
 import com.lunev2k.schedule.model.TotalItem;
-import com.lunev2k.schedule.utils.DateTimeUtil;
 import com.lunev2k.schedule.utils.PrefsUtils;
 
 import java.util.ArrayList;
@@ -135,7 +133,6 @@ public class DatabaseRepository implements Repository {
         finishCalendar.setTime(new Date(PrefsUtils.getInstance(context).getLong(FINISH_DATE)));
         List<TotalItem> list = new ArrayList<>();
         while (startCalendar.before(finishCalendar)) {
-            Log.d(getClass().getName(), DateTimeUtil.getFormatDateTime(startCalendar.getTime()));
             Calendar calendar = (Calendar) startCalendar.clone();
             calendar.set(Calendar.HOUR_OF_DAY, 23);
             calendar.set(Calendar.MINUTE, 59);

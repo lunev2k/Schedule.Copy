@@ -26,4 +26,7 @@
     <string name="error_finish_date">Error Finish Date</string>
     <string name="title_activity_view_lesson">View Lesson</string>
     <string name="text_repeat">Repeat before %s</string>
+    <string name="title_edit_lesson">Edit Lesson</string>
+    <string name="title_delete_lesson">Delete Lesson</string>
+    <string name="title_move_lesson">Move Lesson</string>
 </resources>
