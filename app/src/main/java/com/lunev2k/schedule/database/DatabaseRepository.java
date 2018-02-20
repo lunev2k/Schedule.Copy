@@ -10,6 +10,7 @@ import com.lunev2k.schedule.model.Learner;
 import com.lunev2k.schedule.model.LearnersItem;
 import com.lunev2k.schedule.model.Lesson;
 import com.lunev2k.schedule.model.LessonsItem;
+import com.lunev2k.schedule.model.Study;
 import com.lunev2k.schedule.model.TotalItem;
 import com.lunev2k.schedule.utils.DateTimeUtil;
 import com.lunev2k.schedule.utils.PrefsUtils;
@@ -205,5 +206,61 @@ public class DatabaseRepository implements Repository {
         int pay = c.getInt(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_PAY));
         c.close();
         return new Learner(id, name, pay);
+    }
+
+    @Override
+    public Lesson getLesson(long id) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String[] projection = {
+                DatabaseContract.LessonTable.COLUMN_NAME_DATE,
+                DatabaseContract.LessonTable.COLUMN_NAME_COST,
+                DatabaseContract.LessonTable.COLUMN_NAME_STUDY
+        };
+        String selection = DatabaseContract.LessonTable._ID + " = ?";
+        String[] selectionArgs = new String[]{Long.toString(id)};
+        Cursor c = db.query(
+                DatabaseContract.LessonTable.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+        c.moveToFirst();
+        Date date = new Date(c.getLong(c.getColumnIndex(DatabaseContract.LessonTable.COLUMN_NAME_DATE)));
+        int cost = c.getInt(c.getColumnIndex(DatabaseContract.LessonTable.COLUMN_NAME_COST));
+        Study study = getStudy(c.getLong(c.getColumnIndex(DatabaseContract.LessonTable.COLUMN_NAME_STUDY)));
+        Learner learner = study.getLearner();
+        c.close();
+        return new Lesson(id, date, cost, learner, study);
+    }
+
+    @Override
+    public Study getStudy(long id) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String[] projection = {
+                DatabaseContract.StudyTable.COLUMN_NAME_FINISH_DATE,
+                DatabaseContract.StudyTable.COLUMN_NAME_LEARNER
+        };
+        String selection = DatabaseContract.StudyTable._ID + " = ?";
+        String[] selectionArgs = new String[]{Long.toString(id)};
+        Cursor c = db.query(
+                DatabaseContract.StudyTable.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+        c.moveToFirst();
+        Date date = null;
+        if (c.getLong(c.getColumnIndex(DatabaseContract.StudyTable.COLUMN_NAME_FINISH_DATE)) != 0) {
+            date = new Date(c.getLong(c.getColumnIndex(DatabaseContract.StudyTable.COLUMN_NAME_FINISH_DATE)));
+        }
+        long idLearner = c.getLong(c.getColumnIndex(DatabaseContract.StudyTable.COLUMN_NAME_LEARNER));
+        c.close();
+        return new Study(id, date, getLearner(idLearner));
     }
 }

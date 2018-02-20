@@ -3,6 +3,7 @@ package com.lunev2k.schedule.model;
 import java.util.Date;
 
 public class Lesson {
+    private final Study study;
     private long id;
     private Date date;
     private int cost;
@@ -13,9 +14,11 @@ public class Lesson {
         this.date = date;
         this.cost = cost;
         this.learner = learner;
+        this.study = null;
     }
 
-    public Lesson(Date date, int cost, Learner learner) {
+    public Lesson(Date date, int cost, Learner learner, Study study) {
+        this.study = study;
         this.id = 0;
         this.date = date;
         this.cost = cost;
@@ -27,6 +30,19 @@ public class Lesson {
         this.date = date;
         this.cost = 0;
         this.learner = learner;
+        study = null;
+    }
+
+    public Lesson(long id, Date date, int cost, Learner learner, Study study) {
+        this.study = study;
+        this.id = id;
+        this.date = date;
+        this.cost = cost;
+        this.learner = learner;
+    }
+
+    public Study getStudy() {
+        return study;
     }
 
     public long getId() {

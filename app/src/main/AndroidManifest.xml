@@ -45,6 +45,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.lunev2k.schedule.activities.MainActivity" />
         </activity>
+        <activity
+            android:name=".activities.ViewLessonActivity"
+            android:label="@string/title_activity_view_lesson"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.lunev2k.schedule.activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

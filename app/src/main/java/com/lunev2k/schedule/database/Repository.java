@@ -4,6 +4,7 @@ import com.lunev2k.schedule.model.Learner;
 import com.lunev2k.schedule.model.LearnersItem;
 import com.lunev2k.schedule.model.Lesson;
 import com.lunev2k.schedule.model.LessonsItem;
+import com.lunev2k.schedule.model.Study;
 import com.lunev2k.schedule.model.TotalItem;
 
 import java.util.Date;
@@ -24,4 +25,7 @@ public interface Repository {
 
     Learner getLearner(long id);
 
+    Lesson getLesson(long id);
+
+    Study getStudy(long id);
 }
