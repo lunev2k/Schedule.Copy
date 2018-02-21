@@ -5,10 +5,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-/**
- * Created by lunev on 16.02.2018.
- */
-
 public class DatePickerFragment extends DialogFragment {
 
     DatePickerDialog.OnDateSetListener onDateSet;
