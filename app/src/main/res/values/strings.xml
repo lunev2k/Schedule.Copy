@@ -30,4 +30,6 @@
     <string name="title_delete_lesson">Delete Lesson</string>
     <string name="title_move_lesson">Move Lesson</string>
     <string name="title_activity_view_learner">View Learner</string>
+    <string name="title_edit_learner">Edit Learner</string>
+    <string name="title_delete_learner">Delete Learner</string>
 </resources>

@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLearnerItemClick(LearnersItem learner) {
         Intent intent = new Intent(this, ViewLearnerActivity.class);
-//        intent.putExtra(ViewLearnerActivity.LEARNER_ID, learner.getId());
+        intent.putExtra(ViewLearnerActivity.LEARNER_ID, learner.getId());
         startActivity(intent);
     }
 
