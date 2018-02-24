@@ -8,10 +8,6 @@ import static com.lunev2k.schedule.database.DatabaseContract.SQL_CREATE_LEARNERS
 import static com.lunev2k.schedule.database.DatabaseContract.SQL_CREATE_LESSONS;
 import static com.lunev2k.schedule.database.DatabaseContract.SQL_CREATE_STUDIES;
 
-/**
- * Created by lunev on 16.02.2018.
- */
-
 public class DbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "schedule.db";

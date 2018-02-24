@@ -12,6 +12,7 @@ import com.lunev2k.schedule.model.LessonsItem;
 import com.lunev2k.schedule.model.Study;
 import com.lunev2k.schedule.model.TotalItem;
 import com.lunev2k.schedule.utils.PrefsUtils;
+import com.lunev2k.schedule.utils.RangeDateUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -103,8 +104,8 @@ public class DatabaseRepository implements Repository {
 
     @Override
     public List<LessonsItem> getLessons() {
-        long begDate = PrefsUtils.getInstance(context).getLong(START_DATE);
-        long endDate = PrefsUtils.getInstance(context).getLong(FINISH_DATE);
+        long begDate = RangeDateUtil.getStartDate(context).getTime();
+        long endDate = RangeDateUtil.getFinishDate(context).getTime();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String sqlQuery = String.format(Locale.getDefault(),
                 "SELECT ls._id, date, name, cost FROM lesson ls join study st on st._id = ls.study join learner lr on lr._id = st.learner WHERE ls.date BETWEEN %d AND %d ORDER BY date",
