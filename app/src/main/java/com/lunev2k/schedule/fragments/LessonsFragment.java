@@ -10,16 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.adapters.LessonsAdapter;
 import com.lunev2k.schedule.database.DatabaseRepository;
-import com.lunev2k.schedule.database.Repository;
 import com.lunev2k.schedule.model.LessonsItem;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LessonsFragment extends Fragment {
+
+    @Inject
+    DatabaseRepository mRepository;
 
     @BindView(R.id.rvLessons)
     RecyclerView rvLessons;
@@ -35,6 +40,7 @@ public class LessonsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lessons, container, false);
         ButterKnife.bind(this, view);
+        App.getComponent().inject(this);
         rvLessons.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
     }
@@ -63,8 +69,7 @@ public class LessonsFragment extends Fragment {
     }
 
     private void loadData() {
-        Repository repository = new DatabaseRepository(getContext());
-        LessonsAdapter adapter = new LessonsAdapter(repository.getLessons(),
+        LessonsAdapter adapter = new LessonsAdapter(mRepository.getLessons(),
                 item -> listener.onLessonItemClickListener(item));
         rvLessons.setAdapter(adapter);
     }

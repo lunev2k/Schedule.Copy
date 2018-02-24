@@ -8,15 +8,20 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.widget.ArrayAdapter;
 
+import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.database.DatabaseRepository;
-import com.lunev2k.schedule.database.Repository;
 import com.lunev2k.schedule.model.Learner;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class ChoiceLearnerFragment extends DialogFragment {
+
+    @Inject
+    DatabaseRepository mRepository;
 
     NoticeChoiceLearnerDialogListener listener;
     private long id;
@@ -35,9 +40,9 @@ public class ChoiceLearnerFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        App.getComponent().inject(this);
         final List<Learner>[] list = new List[]{new ArrayList<>()};
-        Repository repository = new DatabaseRepository(getActivity());
-        list[0] = repository.getLearners();
+        list[0] = mRepository.getLearners();
         ArrayAdapter<Learner> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_singlechoice, list[0]);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.title_choice_learner)

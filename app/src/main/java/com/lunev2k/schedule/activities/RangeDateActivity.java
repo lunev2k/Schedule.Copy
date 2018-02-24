@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.fragments.dialogs.DatePickerFragment;
 import com.lunev2k.schedule.utils.DateTimeUtil;
@@ -15,6 +16,8 @@ import com.lunev2k.schedule.utils.PrefsUtils;
 import com.lunev2k.schedule.utils.RangeDateUtil;
 
 import java.util.Calendar;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +31,10 @@ public class RangeDateActivity extends AppCompatActivity {
     public static final String YEAR = "year";
     public static final String MONTH = "month";
     public static final String DAY = "day";
+    @Inject
+    PrefsUtils mPrefsUtils;
+    @Inject
+    RangeDateUtil mRangeDateUtil;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -42,15 +49,6 @@ public class RangeDateActivity extends AppCompatActivity {
     private Calendar finishDate;
     DatePickerDialog.OnDateSetListener onFinishDate = (view, year, monthOfYear, dayOfMonth) ->
             setFinishDate(dayOfMonth, monthOfYear, year);
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_range_date);
-        ButterKnife.bind(this);
-
-        initView();
-    }
 
     @OnClick(R.id.etStartDate)
     public void etStartDateClick(View view) {
@@ -82,9 +80,18 @@ public class RangeDateActivity extends AppCompatActivity {
             Toast.makeText(view.getContext(), R.string.error_range_date, Toast.LENGTH_SHORT).show();
             return;
         }
-        PrefsUtils.getInstance(this).putLong(START_DATE, startDatetime.getTimeInMillis());
-        PrefsUtils.getInstance(this).putLong(FINISH_DATE, finishDate.getTimeInMillis());
+        mPrefsUtils.putLong(START_DATE, startDatetime.getTimeInMillis());
+        mPrefsUtils.putLong(FINISH_DATE, finishDate.getTimeInMillis());
         finish();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_range_date);
+        App.getComponent().inject(this);
+        ButterKnife.bind(this);
+        initView();
     }
 
     private void initView() {
@@ -92,9 +99,9 @@ public class RangeDateActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         startDatetime = Calendar.getInstance();
-        startDatetime.setTime(RangeDateUtil.getStartDate(this));
+        startDatetime.setTime(mRangeDateUtil.getStartDate());
         finishDate = Calendar.getInstance();
-        finishDate.setTime(RangeDateUtil.getFinishDate(this));
+        finishDate.setTime(mRangeDateUtil.getFinishDate());
         tilStartDate.getEditText().setText(DateTimeUtil.getFormatDate(startDatetime.getTime()));
         tilFinishDate.getEditText().setText(DateTimeUtil.getFormatDate(finishDate.getTime()));
     }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
 
+import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.database.DatabaseRepository;
 import com.lunev2k.schedule.database.Repository;
@@ -26,11 +27,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AddLessonActivity extends AppCompatActivity implements ChoiceLearnerFragment.NoticeChoiceLearnerDialogListener {
+
+    @Inject
+    DatabaseRepository mRepository;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -95,18 +101,8 @@ public class AddLessonActivity extends AppCompatActivity implements ChoiceLearne
         } else {
             lessons.add(new Lesson(startDatetime.getTime(), selectedLearner));
         }
-        Repository repository = new DatabaseRepository(this);
-        repository.addLessons(swRepeat.isChecked() ? finishDate.getTime() : null, selectedLearner, lessons);
+        mRepository.addLessons(swRepeat.isChecked() ? finishDate.getTime() : null, selectedLearner, lessons);
         finish();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_lesson);
-        ButterKnife.bind(this);
-
-        initView();
     }
 
     @OnClick(R.id.etStartDate)
@@ -155,6 +151,23 @@ public class AddLessonActivity extends AppCompatActivity implements ChoiceLearne
         tilFinishDate.setVisibility(swRepeat.isChecked() ? View.VISIBLE : View.INVISIBLE);
     }
 
+    @Override
+    public void onChoiceLearnerDialog(long id) {
+        Repository repository = new DatabaseRepository(this);
+        selectedLearner = repository.getLearner(id);
+        tilLearnerName.getEditText().setText(selectedLearner.getName());
+        tilLearnerName.setError("");
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_lesson);
+        App.getComponent().inject(this);
+        ButterKnife.bind(this);
+        initView();
+    }
+
     private void initView() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -184,13 +197,5 @@ public class AddLessonActivity extends AppCompatActivity implements ChoiceLearne
         startDatetime.set(Calendar.YEAR, year);
         etStartDate.setText(DateTimeUtil.getFormatDate(startDatetime.getTime()));
         tilStartDate.setError("");
-    }
-
-    @Override
-    public void onChoiceLearnerDialog(long id) {
-        Repository repository = new DatabaseRepository(this);
-        selectedLearner = repository.getLearner(id);
-        tilLearnerName.getEditText().setText(selectedLearner.getName());
-        tilLearnerName.setError("");
     }
 }

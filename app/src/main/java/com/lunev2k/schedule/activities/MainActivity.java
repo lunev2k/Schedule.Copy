@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.fragments.LearnersFragment;
 import com.lunev2k.schedule.fragments.LessonsFragment;
@@ -17,6 +18,8 @@ import com.lunev2k.schedule.model.LearnersItem;
 import com.lunev2k.schedule.model.LessonsItem;
 import com.lunev2k.schedule.model.TotalItem;
 import com.lunev2k.schedule.utils.PrefsUtils;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements
         LearnersFragment.OnLearnerItemClickListener {
 
     private static final String NAVIGATION_ID = "navigationId";
+    @Inject
+    PrefsUtils mPrefsUtils;
     @BindView(R.id.navigation)
     BottomNavigationView navigation;
     private boolean visibleAddLearner;
@@ -61,15 +66,6 @@ public class MainActivity extends AppCompatActivity implements
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-
-        initView();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -102,9 +98,37 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onLearnerItemClick(LearnersItem learner) {
+        Intent intent = new Intent(this, ViewLearnerActivity.class);
+//        intent.putExtra(ViewLearnerActivity.LEARNER_ID, learner.getId());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onLessonItemClickListener(LessonsItem lesson) {
+        Intent intent = new Intent(this, ViewLessonActivity.class);
+        intent.putExtra(ViewLessonActivity.LESSON_ID, lesson.getId());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onTotalItemClickListener(TotalItem total) {
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        App.getComponent().inject(this);
+        ButterKnife.bind(this);
+        initView();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
-        int id = PrefsUtils.getInstance(this).getInt(NAVIGATION_ID);
+        int id = mPrefsUtils.getInt(NAVIGATION_ID);
         navigation.getMenu().getItem(id).setChecked(true);
         navigation.getMenu().performIdentifierAction(getNavigationId(id), 0);
     }
@@ -113,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onStop() {
         super.onStop();
         int id = getSelectedItem();
-        PrefsUtils.getInstance(this).putInt(NAVIGATION_ID, id);
+        mPrefsUtils.putInt(NAVIGATION_ID, id);
     }
 
     private void initView() {
@@ -147,24 +171,5 @@ public class MainActivity extends AppCompatActivity implements
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame, fragment)
                 .commit();
-    }
-
-    @Override
-    public void onLearnerItemClick(LearnersItem learner) {
-        Intent intent = new Intent(this, ViewLearnerActivity.class);
-//        intent.putExtra(ViewLearnerActivity.LEARNER_ID, learner.getId());
-        startActivity(intent);
-    }
-
-    @Override
-    public void onLessonItemClickListener(LessonsItem lesson) {
-        Intent intent = new Intent(this, ViewLessonActivity.class);
-        intent.putExtra(ViewLessonActivity.LESSON_ID, lesson.getId());
-        startActivity(intent);
-    }
-
-    @Override
-    public void onTotalItemClickListener(TotalItem total) {
-
     }
 }

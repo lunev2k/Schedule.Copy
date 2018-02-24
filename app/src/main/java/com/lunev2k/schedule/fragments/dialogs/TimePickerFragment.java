@@ -3,6 +3,7 @@ package com.lunev2k.schedule.fragments.dialogs;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 
 public class TimePickerFragment extends DialogFragment {
@@ -24,6 +25,7 @@ public class TimePickerFragment extends DialogFragment {
         minute = args.getInt("minute");
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new TimePickerDialog(getActivity(), onTimeSet, hour, minute, true);

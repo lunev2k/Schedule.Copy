@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.model.Learner;
 import com.lunev2k.schedule.model.LearnersItem;
 import com.lunev2k.schedule.model.Lesson;
@@ -20,17 +21,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import static com.lunev2k.schedule.utils.Constants.FINISH_DATE;
 import static com.lunev2k.schedule.utils.Constants.START_DATE;
 
 public class DatabaseRepository implements Repository {
 
-    private final Context context;
+    @Inject
+    Context mContext;
+    @Inject
+    PrefsUtils mPrefsUtils;
+    @Inject
+    RangeDateUtil mRangeDateUtil;
+
     private DbHelper dbHelper;
 
-    public DatabaseRepository(Context context) {
-        dbHelper = new DbHelper(context);
-        this.context = context;
+    public DatabaseRepository() {
+        dbHelper = new DbHelper(mContext);
+        App.getComponent().inject(this);
     }
 
     @Override
@@ -104,8 +113,8 @@ public class DatabaseRepository implements Repository {
 
     @Override
     public List<LessonsItem> getLessons() {
-        long begDate = RangeDateUtil.getStartDate(context).getTime();
-        long endDate = RangeDateUtil.getFinishDate(context).getTime();
+        long begDate = mRangeDateUtil.getStartDate().getTime();
+        long endDate = mRangeDateUtil.getFinishDate().getTime();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String sqlQuery = String.format(Locale.getDefault(),
                 "SELECT ls._id, date, name, cost FROM lesson ls join study st on st._id = ls.study join learner lr on lr._id = st.learner WHERE ls.date BETWEEN %d AND %d ORDER BY date",
@@ -129,9 +138,9 @@ public class DatabaseRepository implements Repository {
     @Override
     public List<TotalItem> getTotals() {
         Calendar startCalendar = Calendar.getInstance();
-        startCalendar.setTime(new Date(PrefsUtils.getInstance(context).getLong(START_DATE)));
+        startCalendar.setTime(new Date(mPrefsUtils.getLong(START_DATE)));
         Calendar finishCalendar = Calendar.getInstance();
-        finishCalendar.setTime(new Date(PrefsUtils.getInstance(context).getLong(FINISH_DATE)));
+        finishCalendar.setTime(new Date(mPrefsUtils.getLong(FINISH_DATE)));
         List<TotalItem> list = new ArrayList<>();
         while (startCalendar.before(finishCalendar)) {
             Calendar calendar = (Calendar) startCalendar.clone();

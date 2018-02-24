@@ -6,9 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.database.DatabaseRepository;
-import com.lunev2k.schedule.database.Repository;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,21 +19,15 @@ import butterknife.OnTextChanged;
 
 public class AddLearnerActivity extends AppCompatActivity {
 
+    @Inject
+    DatabaseRepository mRepository;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.tilLearnerName)
     TextInputLayout tilLearnerName;
     @BindView(R.id.tilLearnerPay)
     TextInputLayout tilLearnerPay;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_learner);
-        ButterKnife.bind(this);
-
-        initView();
-    }
 
     @OnClick(R.id.fabAddLearnerDone)
     public void addLearnerDoneClick(View view) {
@@ -45,8 +41,7 @@ public class AddLearnerActivity extends AppCompatActivity {
             tilLearnerPay.setError(getString(R.string.error_learner_pay));
             return;
         }
-        Repository repository = new DatabaseRepository(this);
-        repository.addLearner(learnerName, Integer.parseInt(learnerPay));
+        mRepository.addLearner(learnerName, Integer.parseInt(learnerPay));
         finish();
     }
 
@@ -58,6 +53,15 @@ public class AddLearnerActivity extends AppCompatActivity {
     @OnTextChanged(R.id.etLearnerPay)
     public void changedTextOnLearnerPay() {
         tilLearnerPay.setError("");
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_learner);
+        App.getComponent().inject(this);
+        ButterKnife.bind(this);
+        initView();
     }
 
     private void initView() {

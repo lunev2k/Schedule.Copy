@@ -1,17 +1,23 @@
 package com.lunev2k.schedule.utils;
 
-import android.content.Context;
+import com.lunev2k.schedule.App;
 
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.inject.Inject;
+
 public class RangeDateUtil {
 
-    private RangeDateUtil() {
+    @Inject
+    PrefsUtils mPrefsUtils;
+
+    public RangeDateUtil() {
+        App.getComponent().inject(this);
     }
 
-    public static Date getStartDate(Context context) {
-        Date date = new Date(PrefsUtils.getInstance(context).getLong("startDate"));
+    public Date getStartDate() {
+        Date date = new Date(mPrefsUtils.getLong("startDate"));
         if (date.getTime() == 0) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DAY_OF_MONTH, -7);
@@ -23,8 +29,8 @@ public class RangeDateUtil {
         return date;
     }
 
-    public static Date getFinishDate(Context context) {
-        Date date = new Date(PrefsUtils.getInstance(context).getLong("finishDate"));
+    public Date getFinishDate() {
+        Date date = new Date(mPrefsUtils.getLong("finishDate"));
         if (date.getTime() == 0) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DAY_OF_MONTH, 7);

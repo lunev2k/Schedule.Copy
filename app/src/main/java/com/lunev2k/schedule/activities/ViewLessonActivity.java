@@ -11,11 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.database.DatabaseRepository;
-import com.lunev2k.schedule.database.Repository;
 import com.lunev2k.schedule.model.Lesson;
 import com.lunev2k.schedule.utils.DateTimeUtil;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +26,8 @@ import butterknife.OnClick;
 public class ViewLessonActivity extends AppCompatActivity {
 
     public static final String LESSON_ID = "lesson_id";
+    @Inject
+    DatabaseRepository mRepository;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.fabLessonCost)
@@ -41,15 +45,6 @@ public class ViewLessonActivity extends AppCompatActivity {
     public void lessonCostClick(View view) {
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_lesson);
-        ButterKnife.bind(this);
-
-        initView();
     }
 
     @Override
@@ -74,6 +69,15 @@ public class ViewLessonActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_lesson);
+        App.getComponent().inject(this);
+        ButterKnife.bind(this);
+        initView();
+    }
+
     private void initView() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -86,8 +90,7 @@ public class ViewLessonActivity extends AppCompatActivity {
     }
 
     private void fillData(long id) {
-        Repository repository = new DatabaseRepository(this);
-        Lesson lesson = repository.getLesson(id);
+        Lesson lesson = mRepository.getLesson(id);
         tvLessonDatetime.setText(DateTimeUtil.getFormatDateTime(lesson.getDate()));
         tvLearnerName.setText(lesson.getLearner().getName());
         tvLessonCost.setText(lesson.getCost() > 0 ? String.valueOf(lesson.getCost()) : "-");

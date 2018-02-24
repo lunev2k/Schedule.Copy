@@ -3,51 +3,41 @@ package com.lunev2k.schedule.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.prefs.Preferences;
+import com.lunev2k.schedule.App;
+
+import javax.inject.Inject;
 
 import static android.content.Context.MODE_PRIVATE;
 
-/**
- * Created by lunev on 16.02.2018.
- */
-
 public class PrefsUtils {
 
-    private static PrefsUtils _preferences;
-    private Preferences preferences;
-    private Context context;
+    @Inject
+    Context mContext;
 
-    private PrefsUtils(Context context) {
-        this.context = context;
-    }
+    private SharedPreferences mPreferences;
 
-    public static PrefsUtils getInstance(Context context) {
-        if (_preferences == null) {
-            _preferences = new PrefsUtils(context);
-        }
-        return _preferences;
+    public PrefsUtils(Context context) {
+        App.getComponent().inject(this);
+        mContext = context;
+        mPreferences = mContext.getSharedPreferences("settings", MODE_PRIVATE);
     }
 
     public int getInt(String name) {
-        SharedPreferences preferences = context.getSharedPreferences("settings", MODE_PRIVATE);
-        return preferences.getInt(name, 0);
+        return mPreferences.getInt(name, 0);
     }
 
     public void putInt(String name, int value) {
-        SharedPreferences preferences = context.getSharedPreferences("settings", MODE_PRIVATE);
-        SharedPreferences.Editor ed = preferences.edit();
+        SharedPreferences.Editor ed = mPreferences.edit();
         ed.putInt(name, value);
         ed.apply();
     }
 
     public long getLong(String name) {
-        SharedPreferences preferences = context.getSharedPreferences("settings", MODE_PRIVATE);
-        return preferences.getLong(name, 0);
+        return mPreferences.getLong(name, 0);
     }
 
     public void putLong(String name, long value) {
-        SharedPreferences preferences = context.getSharedPreferences("settings", MODE_PRIVATE);
-        SharedPreferences.Editor ed = preferences.edit();
+        SharedPreferences.Editor ed = mPreferences.edit();
         ed.putLong(name, value);
         ed.apply();
     }

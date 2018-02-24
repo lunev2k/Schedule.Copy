@@ -10,16 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.adapters.TotalsAdapter;
 import com.lunev2k.schedule.database.DatabaseRepository;
-import com.lunev2k.schedule.database.Repository;
 import com.lunev2k.schedule.model.TotalItem;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TotalsFragment extends Fragment {
+
+    @Inject
+    DatabaseRepository mRepository;
 
     @BindView(R.id.rvTotals)
     RecyclerView rvTotals;
@@ -34,6 +39,7 @@ public class TotalsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_totals, container, false);
         ButterKnife.bind(this, view);
+        App.getComponent().inject(this);
         rvTotals.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
     }
@@ -62,8 +68,7 @@ public class TotalsFragment extends Fragment {
     }
 
     private void loadData() {
-        Repository repository = new DatabaseRepository(getContext());
-        TotalsAdapter adapter = new TotalsAdapter(repository.getTotals(),
+        TotalsAdapter adapter = new TotalsAdapter(mRepository.getTotals(),
                 item -> listener.onTotalItemClickListener(item));
         rvTotals.setAdapter(adapter);
     }
