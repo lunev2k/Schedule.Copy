@@ -37,9 +37,9 @@ public class DatabaseRepository implements Repository {
 
     private DbHelper dbHelper;
 
-    public DatabaseRepository() {
-        dbHelper = new DbHelper(mContext);
+    public DatabaseRepository(Context context) {
         App.getComponent().inject(this);
+        dbHelper = new DbHelper(context);
     }
 
     @Override

@@ -15,7 +15,6 @@ import android.widget.Switch;
 import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.database.DatabaseRepository;
-import com.lunev2k.schedule.database.Repository;
 import com.lunev2k.schedule.fragments.dialogs.ChoiceLearnerFragment;
 import com.lunev2k.schedule.fragments.dialogs.DatePickerFragment;
 import com.lunev2k.schedule.fragments.dialogs.TimePickerFragment;
@@ -153,8 +152,7 @@ public class AddLessonActivity extends AppCompatActivity implements ChoiceLearne
 
     @Override
     public void onChoiceLearnerDialog(long id) {
-        Repository repository = new DatabaseRepository(this);
-        selectedLearner = repository.getLearner(id);
+        selectedLearner = mRepository.getLearner(id);
         tilLearnerName.getEditText().setText(selectedLearner.getName());
         tilLearnerName.setError("");
     }
