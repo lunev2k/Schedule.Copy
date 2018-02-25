@@ -23,9 +23,6 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import static com.lunev2k.schedule.utils.Constants.FINISH_DATE;
-import static com.lunev2k.schedule.utils.Constants.START_DATE;
-
 public class DatabaseRepository implements Repository {
 
     @Inject
@@ -138,9 +135,9 @@ public class DatabaseRepository implements Repository {
     @Override
     public List<TotalItem> getTotals() {
         Calendar startCalendar = Calendar.getInstance();
-        startCalendar.setTime(new Date(mPrefsUtils.getLong(START_DATE)));
+        startCalendar.setTime(mRangeDateUtil.getStartDate());
         Calendar finishCalendar = Calendar.getInstance();
-        finishCalendar.setTime(new Date(mPrefsUtils.getLong(FINISH_DATE)));
+        finishCalendar.setTime(mRangeDateUtil.getFinishDate());
         List<TotalItem> list = new ArrayList<>();
         while (startCalendar.before(finishCalendar)) {
             Calendar calendar = (Calendar) startCalendar.clone();
