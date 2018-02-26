@@ -277,4 +277,13 @@ public class DatabaseRepository implements Repository {
         c.close();
         return new Study(id, date, getLearner(idLearner));
     }
+
+    @Override
+    public void setPayment(long id, int pay) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(DatabaseContract.LessonTable.COLUMN_NAME_COST, pay);
+        db.update(DatabaseContract.LessonTable.TABLE_NAME, cv,
+                DatabaseContract.LessonTable._ID + " = ?", new String[]{String.valueOf(id)});
+    }
 }

@@ -33,4 +33,6 @@
     <string name="title_edit_learner">Edit Learner</string>
     <string name="title_delete_learner">Delete Learner</string>
     <string name="title_activity_edit_learner">Edit Learner</string>
+    <string name="hint_payment_lesson">Payment lesson</string>
+    <string name="title_payment_lesson">Payment Lesson</string>
 </resources>

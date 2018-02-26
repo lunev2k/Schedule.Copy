@@ -3,7 +3,7 @@ package com.lunev2k.schedule.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -14,7 +14,9 @@ import android.widget.TextView;
 import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.database.Repository;
+import com.lunev2k.schedule.fragments.dialogs.PaymentLessonFragment;
 import com.lunev2k.schedule.model.Lesson;
+import com.lunev2k.schedule.utils.Constants;
 import com.lunev2k.schedule.utils.DateTimeUtil;
 
 import javax.inject.Inject;
@@ -23,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ViewLessonActivity extends AppCompatActivity {
+public class ViewLessonActivity extends AppCompatActivity implements PaymentLessonFragment.PaymentLessonFragmentListener {
 
     public static final String LESSON_ID = "lesson_id";
     @Inject
@@ -40,11 +42,16 @@ public class ViewLessonActivity extends AppCompatActivity {
     TextView tvLessonCost;
     @BindView(R.id.tvRepeat)
     TextView tvRepeat;
+    private int mPayment;
+    private long mIdLesson;
 
     @OnClick(R.id.fabLessonCost)
     public void lessonCostClick(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        DialogFragment dialog = new PaymentLessonFragment();
+        Bundle args = new Bundle();
+        args.putInt(Constants.PAYMENT_LEARNER, mPayment);
+        dialog.setArguments(args);
+        dialog.show(getSupportFragmentManager(), "PaymentLessonFragment");
     }
 
     @Override
@@ -70,6 +77,12 @@ public class ViewLessonActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onPaymentLesson(int pay) {
+        mRepository.setPayment(mIdLesson, pay);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_lesson);
@@ -91,6 +104,8 @@ public class ViewLessonActivity extends AppCompatActivity {
 
     private void fillData(long id) {
         Lesson lesson = mRepository.getLesson(id);
+        mIdLesson = lesson.getId();
+        mPayment = lesson.getLearner().getPay();
         tvLessonDatetime.setText(DateTimeUtil.getFormatDateTime(lesson.getDate()));
         tvLearnerName.setText(lesson.getLearner().getName());
         tvLessonCost.setText(lesson.getCost() > 0 ? String.valueOf(lesson.getCost()) : "-");

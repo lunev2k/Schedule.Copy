@@ -30,4 +30,6 @@ public interface Repository {
     Lesson getLesson(long id);
 
     Study getStudy(long id);
+
+    void setPayment(long id, int pay);
 }
