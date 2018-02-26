@@ -1,5 +1,6 @@
 package com.lunev2k.schedule.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,8 @@ import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.database.DatabaseRepository;
 import com.lunev2k.schedule.model.Learner;
+import com.lunev2k.schedule.utils.Constants;
+import com.lunev2k.schedule.utils.PrefsUtils;
 
 import javax.inject.Inject;
 
@@ -19,9 +22,10 @@ import butterknife.ButterKnife;
 
 public class ViewLearnerActivity extends AppCompatActivity {
 
-    public static final String LEARNER_ID = "learner_id";
     @Inject
     DatabaseRepository mRepository;
+    @Inject
+    PrefsUtils mPrefsUtils;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -29,6 +33,7 @@ public class ViewLearnerActivity extends AppCompatActivity {
     TextView tvName;
     @BindView(R.id.tvPay)
     TextView tvPay;
+    private long mLearnerId;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -42,6 +47,10 @@ public class ViewLearnerActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.action_edit_learner:
+                mPrefsUtils.putLong(Constants.LEARNER_ID, mLearnerId);
+                Intent intent = new Intent(this, EditLearnerActivity.class);
+                intent.putExtra(Constants.LEARNER_ID, mLearnerId);
+                startActivityForResult(intent, 1);
                 break;
             case R.id.action_delete_learner:
                 break;
@@ -59,16 +68,23 @@ public class ViewLearnerActivity extends AppCompatActivity {
         initView();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            finish();
+        }
+    }
+
     private void initView() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        long id = getIntent().getLongExtra(LEARNER_ID, 0);
-        if (id == 0) {
-            finish();
+        mLearnerId = getIntent().getLongExtra(Constants.LEARNER_ID, 0);
+        if (mLearnerId == 0) {
+            mLearnerId = mPrefsUtils.getLong(Constants.LEARNER_ID);
         }
-        Learner learner = mRepository.getLearner(id);
+        Learner learner = mRepository.getLearner(mLearnerId);
         tvName.setText(learner.getName());
         tvPay.setText(String.valueOf(learner.getPay()));
     }
-
 }

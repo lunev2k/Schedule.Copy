@@ -13,6 +13,8 @@ import java.util.List;
 public interface Repository {
     long addLearner(String name, int pay);
 
+    void editLearner(long id, String name, int pay);
+
     List<LearnersItem> getLearnerItems();
 
     List<Learner> getLearners();

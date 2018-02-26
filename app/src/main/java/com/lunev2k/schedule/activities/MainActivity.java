@@ -17,6 +17,7 @@ import com.lunev2k.schedule.fragments.TotalsFragment;
 import com.lunev2k.schedule.model.LearnersItem;
 import com.lunev2k.schedule.model.LessonsItem;
 import com.lunev2k.schedule.model.TotalItem;
+import com.lunev2k.schedule.utils.Constants;
 import com.lunev2k.schedule.utils.PrefsUtils;
 
 import javax.inject.Inject;
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLearnerItemClick(LearnersItem learner) {
         Intent intent = new Intent(this, ViewLearnerActivity.class);
-        intent.putExtra(ViewLearnerActivity.LEARNER_ID, learner.getId());
+        intent.putExtra(Constants.LEARNER_ID, learner.getId());
         startActivity(intent);
     }
 
