@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 
 import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
-import com.lunev2k.schedule.database.DatabaseRepository;
+import com.lunev2k.schedule.database.Repository;
 import com.lunev2k.schedule.model.Learner;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import javax.inject.Inject;
 public class ChoiceLearnerFragment extends DialogFragment {
 
     @Inject
-    DatabaseRepository mRepository;
+    Repository mRepository;
 
     NoticeChoiceLearnerDialogListener listener;
     private long id;

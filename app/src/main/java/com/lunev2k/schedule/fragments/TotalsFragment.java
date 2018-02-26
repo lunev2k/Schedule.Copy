@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.adapters.TotalsAdapter;
-import com.lunev2k.schedule.database.DatabaseRepository;
+import com.lunev2k.schedule.database.Repository;
 import com.lunev2k.schedule.model.TotalItem;
 
 import javax.inject.Inject;
@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 public class TotalsFragment extends Fragment {
 
     @Inject
-    DatabaseRepository mRepository;
+    Repository mRepository;
 
     @BindView(R.id.rvTotals)
     RecyclerView rvTotals;

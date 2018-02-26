@@ -15,9 +15,12 @@ import com.lunev2k.schedule.fragments.dialogs.ChoiceLearnerFragment;
 import com.lunev2k.schedule.utils.PrefsUtils;
 import com.lunev2k.schedule.utils.RangeDateUtil;
 
+import javax.inject.Singleton;
+
 import dagger.Component;
 
 @Component(modules = {AppModule.class})
+@Singleton
 public interface AppComponent {
     void inject(PrefsUtils prefsUtils);
 

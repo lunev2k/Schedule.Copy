@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
-import com.lunev2k.schedule.database.DatabaseRepository;
+import com.lunev2k.schedule.database.Repository;
 
 import javax.inject.Inject;
 
@@ -20,7 +20,7 @@ import butterknife.OnTextChanged;
 public class AddLearnerActivity extends AppCompatActivity {
 
     @Inject
-    DatabaseRepository mRepository;
+    Repository mRepository;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

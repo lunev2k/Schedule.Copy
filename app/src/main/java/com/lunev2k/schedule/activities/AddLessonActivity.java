@@ -14,7 +14,7 @@ import android.widget.Switch;
 
 import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
-import com.lunev2k.schedule.database.DatabaseRepository;
+import com.lunev2k.schedule.database.Repository;
 import com.lunev2k.schedule.fragments.dialogs.ChoiceLearnerFragment;
 import com.lunev2k.schedule.fragments.dialogs.DatePickerFragment;
 import com.lunev2k.schedule.fragments.dialogs.TimePickerFragment;
@@ -35,7 +35,7 @@ import butterknife.OnClick;
 public class AddLessonActivity extends AppCompatActivity implements ChoiceLearnerFragment.NoticeChoiceLearnerDialogListener {
 
     @Inject
-    DatabaseRepository mRepository;
+    Repository mRepository;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
-import com.lunev2k.schedule.database.DatabaseRepository;
+import com.lunev2k.schedule.database.Repository;
 import com.lunev2k.schedule.model.Learner;
 import com.lunev2k.schedule.utils.Constants;
 
@@ -23,7 +23,7 @@ import butterknife.OnTextChanged;
 public class EditLearnerActivity extends AppCompatActivity {
 
     @Inject
-    DatabaseRepository mRepository;
+    Repository mRepository;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.fabEditLearnerDone)

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
-import com.lunev2k.schedule.database.DatabaseRepository;
+import com.lunev2k.schedule.database.Repository;
 import com.lunev2k.schedule.model.Learner;
 import com.lunev2k.schedule.utils.Constants;
 import com.lunev2k.schedule.utils.PrefsUtils;
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 public class ViewLearnerActivity extends AppCompatActivity {
 
     @Inject
-    DatabaseRepository mRepository;
+    Repository mRepository;
     @Inject
     PrefsUtils mPrefsUtils;
 

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
-import com.lunev2k.schedule.database.DatabaseRepository;
+import com.lunev2k.schedule.database.Repository;
 import com.lunev2k.schedule.model.Lesson;
 import com.lunev2k.schedule.utils.DateTimeUtil;
 
@@ -27,7 +27,7 @@ public class ViewLessonActivity extends AppCompatActivity {
 
     public static final String LESSON_ID = "lesson_id";
     @Inject
-    DatabaseRepository mRepository;
+    Repository mRepository;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.fabLessonCost)
