@@ -35,4 +35,7 @@
     <string name="title_activity_edit_learner">Edit Learner</string>
     <string name="hint_payment_lesson">Payment lesson</string>
     <string name="title_payment_lesson">Payment Lesson</string>
+    <string name="title_activity_move_lesson">Move Lesson</string>
+    <string name="title_current_lesson">Current Lesson</string>
+    <string name="title_all_lessons">All Lessons</string>
 </resources>

@@ -4,6 +4,7 @@ import com.lunev2k.schedule.activities.AddLearnerActivity;
 import com.lunev2k.schedule.activities.AddLessonActivity;
 import com.lunev2k.schedule.activities.EditLearnerActivity;
 import com.lunev2k.schedule.activities.MainActivity;
+import com.lunev2k.schedule.activities.MoveLessonActivity;
 import com.lunev2k.schedule.activities.RangeDateActivity;
 import com.lunev2k.schedule.activities.ViewLearnerActivity;
 import com.lunev2k.schedule.activities.ViewLessonActivity;
@@ -49,4 +50,6 @@ public interface AppComponent {
     void inject(TotalsFragment totalsFragment);
 
     void inject(ChoiceLearnerFragment choiceLearnerFragment);
+
+    void inject(MoveLessonActivity moveLessonActivity);
 }

@@ -18,6 +18,7 @@ import com.lunev2k.schedule.fragments.dialogs.PaymentLessonFragment;
 import com.lunev2k.schedule.model.Lesson;
 import com.lunev2k.schedule.utils.Constants;
 import com.lunev2k.schedule.utils.DateTimeUtil;
+import com.lunev2k.schedule.utils.PrefsUtils;
 
 import javax.inject.Inject;
 
@@ -27,9 +28,11 @@ import butterknife.OnClick;
 
 public class ViewLessonActivity extends AppCompatActivity implements PaymentLessonFragment.PaymentLessonFragmentListener {
 
-    public static final String LESSON_ID = "lesson_id";
     @Inject
     Repository mRepository;
+    @Inject
+    PrefsUtils mPrefsUtils;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.fabLessonCost)
@@ -70,6 +73,10 @@ public class ViewLessonActivity extends AppCompatActivity implements PaymentLess
             case R.id.action_delete_lesson:
                 break;
             case R.id.action_move_lesson:
+                mPrefsUtils.putLong(Constants.LESSON_ID, mIdLesson);
+                Intent intent = new Intent(this, MoveLessonActivity.class);
+                intent.putExtra(Constants.LESSON_ID, mIdLesson);
+                startActivity(intent);
                 break;
         }
 
@@ -94,17 +101,15 @@ public class ViewLessonActivity extends AppCompatActivity implements PaymentLess
     private void initView() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Intent intent = getIntent();
-        long id = intent.getLongExtra(LESSON_ID, 0);
-        if (id == 0) {
-            finish();
+        mIdLesson = getIntent().getLongExtra(Constants.LESSON_ID, 0);
+        if (mIdLesson == 0) {
+            mIdLesson = mPrefsUtils.getLong(Constants.LESSON_ID);
         }
-        fillData(id);
+        fillData();
     }
 
-    private void fillData(long id) {
-        Lesson lesson = mRepository.getLesson(id);
-        mIdLesson = lesson.getId();
+    private void fillData() {
+        Lesson lesson = mRepository.getLesson(mIdLesson);
         mPayment = lesson.getLearner().getPay();
         tvLessonDatetime.setText(DateTimeUtil.getFormatDateTime(lesson.getDate()));
         tvLearnerName.setText(lesson.getLearner().getName());
