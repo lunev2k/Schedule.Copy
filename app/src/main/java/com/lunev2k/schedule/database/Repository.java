@@ -7,6 +7,7 @@ import com.lunev2k.schedule.model.LessonsItem;
 import com.lunev2k.schedule.model.Study;
 import com.lunev2k.schedule.model.TotalItem;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -32,4 +33,6 @@ public interface Repository {
     Study getStudy(long id);
 
     void setPayment(long id, int pay);
+
+    void moveLesson(long lessonId, Calendar datetime);
 }

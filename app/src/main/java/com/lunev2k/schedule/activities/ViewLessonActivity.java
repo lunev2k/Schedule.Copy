@@ -76,7 +76,7 @@ public class ViewLessonActivity extends AppCompatActivity implements PaymentLess
                 mPrefsUtils.putLong(Constants.LESSON_ID, mIdLesson);
                 Intent intent = new Intent(this, MoveLessonActivity.class);
                 intent.putExtra(Constants.LESSON_ID, mIdLesson);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
                 break;
         }
 
@@ -87,6 +87,14 @@ public class ViewLessonActivity extends AppCompatActivity implements PaymentLess
     public void onPaymentLesson(int pay) {
         mRepository.setPayment(mIdLesson, pay);
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            finish();
+        }
     }
 
     @Override

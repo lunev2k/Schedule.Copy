@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -47,7 +46,7 @@ public class MoveLessonActivity extends AppCompatActivity {
     RadioButton rbAll;
     @Inject
     Repository mRepository;
-    private long mId;
+    private long mLessonId;
     private Calendar startDatetime;
     DatePickerDialog.OnDateSetListener onStartDate = (view, year, monthOfYear, dayOfMonth) ->
             setStartDate(dayOfMonth, monthOfYear, year);
@@ -56,8 +55,13 @@ public class MoveLessonActivity extends AppCompatActivity {
 
     @OnClick(R.id.fabMoveLessonDone)
     public void moveLessonDoneClick(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        if (rgRepeat.getVisibility() == View.VISIBLE) {
+            moveManyLessons();
+        } else {
+            moveOneLesson();
+        }
+        setResult(RESULT_OK);
+        finish();
     }
 
     @OnClick(R.id.etStartDate)
@@ -73,7 +77,7 @@ public class MoveLessonActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.etStartTime)
-    public void setEtStartTimeClick(View view) {
+    public void etStartTimeClick(View view) {
         TimePickerFragment time = new TimePickerFragment();
         Bundle args = new Bundle();
         args.putInt("hour", startDatetime.get(Calendar.HOUR_OF_DAY));
@@ -92,18 +96,26 @@ public class MoveLessonActivity extends AppCompatActivity {
         initView();
     }
 
+    private void moveManyLessons() {
+
+    }
+
+    private void moveOneLesson() {
+        mRepository.moveLesson(mLessonId, startDatetime);
+    }
+
     private void initView() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mId = getIntent().getLongExtra(Constants.LESSON_ID, 0);
-        if (mId == 0) {
+        mLessonId = getIntent().getLongExtra(Constants.LESSON_ID, 0);
+        if (mLessonId == 0) {
             finish();
         }
         fillData();
     }
 
     private void fillData() {
-        Lesson lesson = mRepository.getLesson(mId);
+        Lesson lesson = mRepository.getLesson(mLessonId);
         startDatetime = Calendar.getInstance();
         startDatetime.setTime(lesson.getDate());
         tilStartDate.getEditText().setText(DateTimeUtil.getFormatDate(lesson.getDate()));

@@ -286,4 +286,13 @@ public class DatabaseRepository implements Repository {
         db.update(DatabaseContract.LessonTable.TABLE_NAME, cv,
                 DatabaseContract.LessonTable._ID + " = ?", new String[]{String.valueOf(id)});
     }
+
+    @Override
+    public void moveLesson(long lessonId, Calendar datetime) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(DatabaseContract.LessonTable.COLUMN_NAME_DATE, datetime.getTimeInMillis());
+        db.update(DatabaseContract.LessonTable.TABLE_NAME, cv,
+                DatabaseContract.LessonTable._ID + " = ?", new String[]{String.valueOf(lessonId)});
+    }
 }
