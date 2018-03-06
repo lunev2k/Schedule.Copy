@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Расписание</string>
+    <string name="title_lessons">Уроки</string>
+    <string name="title_totals">Расписание</string>
+    <string name="title_learners">Ученики</string>
+    <string name="title_add_lesson">Новый урок</string>
+    <string name="title_add_learner">Новый ученик</string>
+    <string name="title_range_date">Диапазон дат</string>
+    <string name="title_activity_range_date">Диапазон дат</string>
+    <string name="hint_start_date">Начальная дата</string>
+    <string name="hint_finish_date">Конечная дата</string>
+    <string name="error_range_date">Конечная дата меньше начальной даты</string>
+    <string name="title_activity_add_learner">Новый ученик</string>
+    <string name="hint_learner_name">Имя ученика</string>
+    <string name="hint_learner_pay">Оплата за урок</string>
+    <string name="error_learner_name">Пустое имя ученика</string>
+    <string name="error_learner_pay">Пустая оплата за урок</string>
+    <string name="title_activity_add_lesson">Новый урок</string>
+    <string name="hint_date_lesson">Начальная дата</string>
+    <string name="hint_time_lesson">Начальное время</string>
+    <string name="title_repeat">Повторение</string>
+    <string name="hint_end_date_repeat">Конечная дата</string>
+    <string name="title_choice_learner">Выбор ученика</string>
+    <string name="error_start_date">Неверная начальная дата</string>
+    <string name="error_start_time">Неверное начальное время</string>
+    <string name="error_finish_date">Неверная конечная дата</string>
+    <string name="title_activity_view_lesson">Просмотр урока</string>
+    <string name="text_repeat">Повторение до %s</string>
+    <string name="title_edit_lesson">Изменение урока</string>
+    <string name="title_delete_lesson">Удаление урока</string>
+    <string name="title_move_lesson">Перенос урока</string>
+    <string name="title_activity_view_learner">Просмотр ученика</string>
+    <string name="title_edit_learner">Изменение ученика</string>
+    <string name="title_delete_learner">Удаление ученика</string>
+    <string name="title_activity_edit_learner">Изменение ученика</string>
+    <string name="hint_payment_lesson">Оплата за урок</string>
+    <string name="title_payment_lesson">Оплата за урок</string>
+    <string name="title_activity_move_lesson">Перенос урока</string>
+    <string name="title_current_lesson">Текущий урока</string>
+    <string name="title_all_lessons">Все уроки</string>
+</resources>
