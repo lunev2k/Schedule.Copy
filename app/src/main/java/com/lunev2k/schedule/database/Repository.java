@@ -35,4 +35,8 @@ public interface Repository {
     void setPayment(long id, int pay);
 
     void moveLesson(long lessonId, Calendar datetime);
+
+    void moveOneLesson(long lessonId, Calendar datetime);
+
+    void moveManyLessons(long lessonId, Calendar datetime);
 }

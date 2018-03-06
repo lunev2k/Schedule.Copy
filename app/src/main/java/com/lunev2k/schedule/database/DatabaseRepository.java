@@ -295,4 +295,65 @@ public class DatabaseRepository implements Repository {
         db.update(DatabaseContract.LessonTable.TABLE_NAME, cv,
                 DatabaseContract.LessonTable._ID + " = ?", new String[]{String.valueOf(lessonId)});
     }
+
+    @Override
+    public void moveOneLesson(long lessonId, Calendar datetime) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            Lesson lesson = getLesson(lessonId);
+            Learner learner = lesson.getLearner();
+            Study study = lesson.getStudy();
+            ContentValues cvStudy = new ContentValues();
+            cvStudy.put(DatabaseContract.StudyTable.COLUMN_NAME_FINISH_DATE, study.getDate().getTime());
+            cvStudy.put(DatabaseContract.StudyTable.COLUMN_NAME_LEARNER, learner.getId());
+            long idStudy = db.insert(DatabaseContract.StudyTable.TABLE_NAME, null, cvStudy);
+            ContentValues cvLesson = new ContentValues();
+            cvLesson.put(DatabaseContract.LessonTable.COLUMN_NAME_DATE, datetime.getTimeInMillis());
+            cvLesson.put(DatabaseContract.LessonTable.COLUMN_NAME_STUDY, idStudy);
+            db.update(DatabaseContract.LessonTable.TABLE_NAME, cvLesson,
+                    DatabaseContract.LessonTable._ID + " = ?", new String[]{String.valueOf(lessonId)});
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    @Override
+    public void moveManyLessons(long lessonId, Calendar datetime) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            Lesson lesson = getLesson(lessonId);
+            Learner learner = lesson.getLearner();
+            Study study = lesson.getStudy();
+            long diff = datetime.getTimeInMillis() - lesson.getDate().getTime();
+            ContentValues cvStudy = new ContentValues();
+            cvStudy.put(DatabaseContract.StudyTable.COLUMN_NAME_FINISH_DATE, study.getDate().getTime());
+            cvStudy.put(DatabaseContract.StudyTable.COLUMN_NAME_LEARNER, learner.getId());
+            long idStudy = db.insert(DatabaseContract.StudyTable.TABLE_NAME, null, cvStudy);
+            Cursor cursor = db.query(DatabaseContract.LessonTable.TABLE_NAME,
+                    null,
+                    DatabaseContract.LessonTable.COLUMN_NAME_DATE + " >= ?",
+                    new String[]{String.valueOf(lesson.getDate().getTime())},
+                    null,
+                    null,
+                    null);
+            if (cursor.moveToFirst()) {
+                do {
+                    long id = cursor.getLong(cursor.getColumnIndex(DatabaseContract.LessonTable._ID));
+                    long date = cursor.getLong(cursor.getColumnIndex(DatabaseContract.LessonTable.COLUMN_NAME_DATE));
+                    ContentValues cvLesson = new ContentValues();
+                    cvLesson.put(DatabaseContract.LessonTable.COLUMN_NAME_STUDY, idStudy);
+                    cvLesson.put(DatabaseContract.LessonTable.COLUMN_NAME_DATE, date + diff);
+                    db.update(DatabaseContract.LessonTable.TABLE_NAME, cvLesson,
+                            DatabaseContract.LessonTable._ID + " = ?", new String[]{String.valueOf(id)});
+                } while (cursor.moveToNext());
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
 }

@@ -97,7 +97,11 @@ public class MoveLessonActivity extends AppCompatActivity {
     }
 
     private void moveManyLessons() {
-
+        if (rbOne.isChecked()) {
+            mRepository.moveOneLesson(mLessonId, startDatetime);
+        } else {
+            mRepository.moveManyLessons(mLessonId, startDatetime);
+        }
     }
 
     private void moveOneLesson() {
