@@ -11,6 +11,7 @@ public class DatabaseContract {
             "CREATE TABLE " + LearnerTable.TABLE_NAME + " (" +
                     LearnerTable._ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
                     LearnerTable.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP +
+                    LearnerTable.COLUMN_NAME_CONTACT + INT_TYPE + COMMA_SEP +
                     LearnerTable.COLUMN_NAME_PAY + INT_TYPE +
                     " )";
 
@@ -34,6 +35,7 @@ public class DatabaseContract {
 
     public static abstract class LearnerTable implements BaseColumns {
         public static final String TABLE_NAME = "learner";
+        public static final String COLUMN_NAME_CONTACT = "contact";
         public static final String COLUMN_NAME_NAME = "name";
         public static final String COLUMN_NAME_PAY = "pay";
     }

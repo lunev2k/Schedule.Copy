@@ -12,9 +12,9 @@ import java.util.Date;
 import java.util.List;
 
 public interface Repository {
-    long addLearner(String name, int pay);
+    long addLearner(long contactId, String name, int pay);
 
-    void editLearner(long id, String name, int pay);
+    void editLearner(long id, long contactId, String name, int pay);
 
     List<LearnersItem> getLearnerItems();
 

@@ -40,19 +40,21 @@ public class DatabaseRepository implements Repository {
     }
 
     @Override
-    public long addLearner(String name, int pay) {
+    public long addLearner(long contactId, String name, int pay) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(DatabaseContract.LearnerTable.COLUMN_NAME_NAME, name);
+        cv.put(DatabaseContract.LearnerTable.COLUMN_NAME_CONTACT, contactId);
         cv.put(DatabaseContract.LearnerTable.COLUMN_NAME_PAY, pay);
         return db.insert(DatabaseContract.LearnerTable.TABLE_NAME, null, cv);
     }
 
     @Override
-    public void editLearner(long id, String name, int pay) {
+    public void editLearner(long id, long contactId, String name, int pay) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(DatabaseContract.LearnerTable.COLUMN_NAME_NAME, name);
+        cv.put(DatabaseContract.LearnerTable.COLUMN_NAME_CONTACT, contactId);
         cv.put(DatabaseContract.LearnerTable.COLUMN_NAME_PAY, pay);
         db.update(DatabaseContract.LearnerTable.TABLE_NAME, cv,
                 DatabaseContract.LearnerTable._ID + " = ?", new String[]{String.valueOf(id)});

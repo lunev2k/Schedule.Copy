@@ -39,4 +39,5 @@
     <string name="title_activity_move_lesson">Перенос урока</string>
     <string name="title_current_lesson">Текущий урока</string>
     <string name="title_all_lessons">Все уроки</string>
+    <string name="hint_learner_contact">Контакт ученика</string>
 </resources>
