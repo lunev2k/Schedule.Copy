@@ -39,4 +39,5 @@
     <string name="title_current_lesson">Current Lesson</string>
     <string name="title_all_lessons">All Lessons</string>
     <string name="hint_learner_contact">Learner Contact</string>
+    <string name="title_activity_day">Day</string>
 </resources>

@@ -2,6 +2,7 @@ package com.lunev2k.schedule.di;
 
 import com.lunev2k.schedule.activities.AddLearnerActivity;
 import com.lunev2k.schedule.activities.AddLessonActivity;
+import com.lunev2k.schedule.activities.DayActivity;
 import com.lunev2k.schedule.activities.EditLearnerActivity;
 import com.lunev2k.schedule.activities.MainActivity;
 import com.lunev2k.schedule.activities.MoveLessonActivity;
@@ -52,4 +53,6 @@ public interface AppComponent {
     void inject(ChoiceLearnerFragment choiceLearnerFragment);
 
     void inject(MoveLessonActivity moveLessonActivity);
+
+    void inject(DayActivity dayActivity);
 }

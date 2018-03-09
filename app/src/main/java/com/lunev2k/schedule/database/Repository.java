@@ -39,4 +39,6 @@ public interface Repository {
     void moveOneLesson(long lessonId, Calendar datetime);
 
     void moveManyLessons(long lessonId, Calendar datetime);
+
+    List<LessonsItem> getLessonsByDate(Date date);
 }

@@ -6,6 +6,7 @@ public class Constants {
     public static final String LEARNER_ID = "learnerId";
     public static final String LESSON_ID = "lesson_id";
     public static final String PAYMENT_LEARNER = "payment";
+    public static final String DAY_ID = "dayId";
 
     private Constants() {
     }

@@ -114,7 +114,9 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onTotalItemClickListener(TotalItem total) {
-
+        Intent intent = new Intent(this, DayActivity.class);
+        intent.putExtra(Constants.DAY_ID, total.getDate().getTime());
+        startActivity(intent);
     }
 
     @Override

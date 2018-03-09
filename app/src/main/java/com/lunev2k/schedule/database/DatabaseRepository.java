@@ -358,4 +358,36 @@ public class DatabaseRepository implements Repository {
             db.endTransaction();
         }
     }
+
+    @Override
+    public List<LessonsItem> getLessonsByDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        long begDate = calendar.getTimeInMillis();
+        calendar.set(Calendar.HOUR, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        long endDate = calendar.getTimeInMillis();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String sqlQuery = String.format(Locale.getDefault(),
+                "SELECT ls._id, date, name, cost FROM lesson ls join study st on st._id = ls.study join learner lr on lr._id = st.learner WHERE ls.date BETWEEN %d AND %d ORDER BY date",
+                begDate, endDate);
+        Cursor c = db.rawQuery(sqlQuery, null);
+        List<LessonsItem> list = new ArrayList<>();
+        if (c.moveToFirst()) {
+            do {
+                long id = c.getLong(c.getColumnIndex(DatabaseContract.LessonTable._ID));
+                Date currDate = new Date(c.getLong(c.getColumnIndex(DatabaseContract.LessonTable.COLUMN_NAME_DATE)));
+                String name = c.getString(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_NAME));
+                int pay = c.getInt(c.getColumnIndex(DatabaseContract.LessonTable.COLUMN_NAME_COST));
+                LessonsItem lesson = new LessonsItem(id, currDate, name, pay);
+                list.add(lesson);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return list;
+    }
 }
