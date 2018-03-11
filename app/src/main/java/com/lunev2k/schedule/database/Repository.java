@@ -49,4 +49,11 @@ public interface Repository {
     void editManyLessons(long lessonId, long learnerId);
 
     void deleteLearner(long learnerId);
+
+    void deleteLesson(long lessonId);
+
+    void deleteOneLessons(long lessonId);
+
+    void deleteManyLessons(long lessonId);
+
 }

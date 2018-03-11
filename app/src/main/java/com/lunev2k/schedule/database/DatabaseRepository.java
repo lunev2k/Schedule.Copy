@@ -476,4 +476,62 @@ public class DatabaseRepository implements Repository {
                 DatabaseContract.LearnerTable._ID + " = ?",
                 new String[]{String.valueOf(learnerId)});
     }
+
+    @Override
+    public void deleteLesson(long lessonId) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            Lesson lesson = getLesson(lessonId);
+            Study study = lesson.getStudy();
+            db.delete(DatabaseContract.LessonTable.TABLE_NAME,
+                    DatabaseContract.LessonTable._ID + " = ?",
+                    new String[]{String.valueOf(lessonId)});
+            db.delete(DatabaseContract.StudyTable.TABLE_NAME,
+                    DatabaseContract.StudyTable._ID + " = ?",
+                    new String[]{String.valueOf(study.getId())});
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    @Override
+    public void deleteOneLessons(long lessonId) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(DatabaseContract.LessonTable.TABLE_NAME,
+                DatabaseContract.LessonTable._ID + " = ?",
+                new String[]{String.valueOf(lessonId)});
+    }
+
+    @Override
+    public void deleteManyLessons(long lessonId) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            Lesson lesson = getLesson(lessonId);
+            Study study = lesson.getStudy();
+            db.delete(DatabaseContract.LessonTable.TABLE_NAME,
+                    DatabaseContract.LessonTable.COLUMN_NAME_DATE + " >= ? AND " +
+                            DatabaseContract.LessonTable.COLUMN_NAME_STUDY + " = ?",
+                    new String[]{String.valueOf(lesson.getDate().getTime()), String.valueOf(study.getId())});
+            Cursor cursor = db.query(DatabaseContract.LessonTable.TABLE_NAME,
+                    null,
+                    DatabaseContract.LessonTable.COLUMN_NAME_STUDY + " = ?",
+                    new String[]{String.valueOf(study.getId())},
+                    null,
+                    null,
+                    null);
+            cursor.moveToFirst();
+            if (cursor.getCount() == 0) {
+                db.delete(DatabaseContract.StudyTable.TABLE_NAME,
+                        DatabaseContract.StudyTable._ID + " = ?",
+                        new String[]{String.valueOf(study.getId())});
+            }
+            cursor.close();
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
 }

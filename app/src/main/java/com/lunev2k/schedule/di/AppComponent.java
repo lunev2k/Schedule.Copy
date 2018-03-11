@@ -15,6 +15,7 @@ import com.lunev2k.schedule.fragments.LearnersFragment;
 import com.lunev2k.schedule.fragments.LessonsFragment;
 import com.lunev2k.schedule.fragments.TotalsFragment;
 import com.lunev2k.schedule.fragments.dialogs.ChoiceLearnerFragment;
+import com.lunev2k.schedule.fragments.dialogs.DeleteLessonFragment;
 import com.lunev2k.schedule.utils.PrefsUtils;
 import com.lunev2k.schedule.utils.RangeDateUtil;
 
@@ -52,6 +53,8 @@ public interface AppComponent {
     void inject(TotalsFragment totalsFragment);
 
     void inject(ChoiceLearnerFragment choiceLearnerFragment);
+
+    void inject(DeleteLessonFragment deleteLessonFragment);
 
     void inject(MoveLessonActivity moveLessonActivity);
 

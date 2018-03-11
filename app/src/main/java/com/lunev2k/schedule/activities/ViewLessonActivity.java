@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.database.Repository;
+import com.lunev2k.schedule.fragments.dialogs.DeleteLessonFragment;
 import com.lunev2k.schedule.fragments.dialogs.PaymentLessonFragment;
 import com.lunev2k.schedule.model.Lesson;
 import com.lunev2k.schedule.utils.Constants;
@@ -26,7 +28,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ViewLessonActivity extends AppCompatActivity implements PaymentLessonFragment.PaymentLessonFragmentListener {
+public class ViewLessonActivity extends AppCompatActivity implements
+        PaymentLessonFragment.PaymentLessonFragmentListener,
+        DeleteLessonFragment.NoticeDeteleLessonDialogListener {
 
     @Inject
     Repository mRepository;
@@ -76,6 +80,7 @@ public class ViewLessonActivity extends AppCompatActivity implements PaymentLess
                 startActivityForResult(intent, 1);
                 break;
             case R.id.action_delete_lesson:
+                deleteLesson();
                 break;
             case R.id.action_move_lesson:
                 mPrefsUtils.putLong(Constants.LESSON_ID, mIdLesson);
@@ -95,6 +100,16 @@ public class ViewLessonActivity extends AppCompatActivity implements PaymentLess
     }
 
     @Override
+    public void onDeteleLessonDialogListener(long id) {
+        if (id == 0) {
+            mRepository.deleteOneLessons(mIdLesson);
+        } else {
+            mRepository.deleteManyLessons(mIdLesson);
+        }
+        finish();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -109,6 +124,26 @@ public class ViewLessonActivity extends AppCompatActivity implements PaymentLess
         App.getComponent().inject(this);
         ButterKnife.bind(this);
         initView();
+    }
+
+    private void deleteLesson() {
+        Lesson lesson = mRepository.getLesson(mIdLesson);
+        if (lesson.getStudy().getDate() == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.title_delete_lesson)
+                    .setMessage(R.string.message_delete_lesson)
+                    .setPositiveButton(android.R.string.ok, (dialog, id) -> {
+                        mRepository.deleteLesson(mIdLesson);
+                        finish();
+                    })
+                    .setNegativeButton(android.R.string.cancel, (dialog, id) -> {
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
+            DialogFragment dlg = new DeleteLessonFragment();
+            dlg.show(getSupportFragmentManager(), "dlg");
+        }
     }
 
     private void initView() {
