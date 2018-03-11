@@ -2,6 +2,7 @@ package com.lunev2k.schedule.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -53,6 +54,7 @@ public class ViewLearnerActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
                 break;
             case R.id.action_delete_learner:
+                deleteLearner();
                 break;
         }
 
@@ -74,6 +76,20 @@ public class ViewLearnerActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             finish();
         }
+    }
+
+    private void deleteLearner() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.title_delete_learner)
+                .setMessage(R.string.message_delete_learner)
+                .setPositiveButton(android.R.string.ok, (dialog, id) -> {
+                    mRepository.deleteLearner(mLearnerId);
+                    finish();
+                })
+                .setNegativeButton(android.R.string.cancel, (dialog, id) -> {
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void initView() {

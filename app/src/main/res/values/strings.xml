@@ -31,7 +31,6 @@
     <string name="title_move_lesson">Move Lesson</string>
     <string name="title_activity_view_learner">View Learner</string>
     <string name="title_edit_learner">Edit Learner</string>
-    <string name="title_delete_learner">Delete Learner</string>
     <string name="title_activity_edit_learner">Edit Learner</string>
     <string name="hint_payment_lesson">Payment lesson</string>
     <string name="title_payment_lesson">Payment Lesson</string>
@@ -41,4 +40,6 @@
     <string name="hint_learner_contact">Learner Contact</string>
     <string name="title_activity_day">Day</string>
     <string name="title_activity_edit_lesson">Edit Lesson</string>
+    <string name="title_delete_learner">Delete Learner</string>
+    <string name="message_delete_learner">Sure are delete learner?</string>
 </resources>

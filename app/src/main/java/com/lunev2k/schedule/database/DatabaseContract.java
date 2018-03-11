@@ -12,7 +12,8 @@ public class DatabaseContract {
                     LearnerTable._ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
                     LearnerTable.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP +
                     LearnerTable.COLUMN_NAME_CONTACT + INT_TYPE + COMMA_SEP +
-                    LearnerTable.COLUMN_NAME_PAY + INT_TYPE +
+                    LearnerTable.COLUMN_NAME_PAY + INT_TYPE + COMMA_SEP +
+                    LearnerTable.COLUMN_NAME_DELETED + INT_TYPE + " DEFAULT 0" +
                     " )";
 
     static final String SQL_CREATE_STUDIES =
@@ -38,6 +39,7 @@ public class DatabaseContract {
         static final String COLUMN_NAME_CONTACT = "contact";
         static final String COLUMN_NAME_NAME = "name";
         static final String COLUMN_NAME_PAY = "pay";
+        static final String COLUMN_NAME_DELETED = "deleted";
     }
 
     static abstract class StudyTable implements BaseColumns {

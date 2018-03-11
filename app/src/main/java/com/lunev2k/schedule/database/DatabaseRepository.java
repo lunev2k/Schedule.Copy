@@ -68,12 +68,14 @@ public class DatabaseRepository implements Repository {
                 DatabaseContract.LearnerTable.COLUMN_NAME_NAME,
                 DatabaseContract.LearnerTable.COLUMN_NAME_PAY
         };
+        String selection = DatabaseContract.LearnerTable.COLUMN_NAME_DELETED + " = ?";
+        String[] selectionArgs = new String[]{"0"};
         String sortOrder = DatabaseContract.LearnerTable.COLUMN_NAME_NAME;
         Cursor c = db.query(
                 DatabaseContract.LearnerTable.TABLE_NAME,
                 projection,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null,
                 null,
                 sortOrder
@@ -98,12 +100,14 @@ public class DatabaseRepository implements Repository {
                 DatabaseContract.LearnerTable.COLUMN_NAME_NAME,
                 DatabaseContract.LearnerTable.COLUMN_NAME_PAY
         };
+        String selection = DatabaseContract.LearnerTable.COLUMN_NAME_DELETED + " = ?";
+        String[] selectionArgs = new String[]{"0"};
         String sortOrder = DatabaseContract.LearnerTable.COLUMN_NAME_NAME;
         Cursor c = db.query(
                 DatabaseContract.LearnerTable.TABLE_NAME,
                 projection,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null,
                 null,
                 sortOrder
@@ -461,5 +465,15 @@ public class DatabaseRepository implements Repository {
         } finally {
             db.endTransaction();
         }
+    }
+
+    @Override
+    public void deleteLearner(long learnerId) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(DatabaseContract.LearnerTable.COLUMN_NAME_DELETED, 1);
+        db.update(DatabaseContract.LearnerTable.TABLE_NAME, cv,
+                DatabaseContract.LearnerTable._ID + " = ?",
+                new String[]{String.valueOf(learnerId)});
     }
 }

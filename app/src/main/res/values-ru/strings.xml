@@ -42,4 +42,5 @@
     <string name="hint_learner_contact">Контакт ученика</string>
     <string name="title_activity_day">Учебный день</string>
     <string name="title_activity_edit_lesson">Изменение урока</string>
+    <string name="message_delete_learner">Уверены, что хотите удалить ученика?</string>
 </resources>
