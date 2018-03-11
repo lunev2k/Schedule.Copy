@@ -50,7 +50,9 @@ public class ChoiceLearnerFragment extends DialogFragment {
                     id = adapter.getItem(item).getId();
                 })
                 .setPositiveButton(android.R.string.ok, (dialogInterface, item) -> {
-                    listener.onChoiceLearnerDialog(id);
+                    if (id > 0) {
+                        listener.onChoiceLearnerDialog(id);
+                    }
                 })
                 .setNegativeButton(android.R.string.cancel, (dialogInterface, item) -> {
 

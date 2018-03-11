@@ -37,7 +37,9 @@
     <string name="hint_payment_lesson">Оплата за урок</string>
     <string name="title_payment_lesson">Оплата за урок</string>
     <string name="title_activity_move_lesson">Перенос урока</string>
-    <string name="title_current_lesson">Текущий урока</string>
+    <string name="title_current_lesson">Текущий урок</string>
     <string name="title_all_lessons">Все уроки</string>
     <string name="hint_learner_contact">Контакт ученика</string>
+    <string name="title_activity_day">Учебный день</string>
+    <string name="title_activity_edit_lesson">Изменение урока</string>
 </resources>

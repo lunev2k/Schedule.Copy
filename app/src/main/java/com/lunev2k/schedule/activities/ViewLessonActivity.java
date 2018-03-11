@@ -67,14 +67,19 @@ public class ViewLessonActivity extends AppCompatActivity implements PaymentLess
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        Intent intent;
         switch (id) {
             case R.id.action_edit_lesson:
+                mPrefsUtils.putLong(Constants.LESSON_ID, mIdLesson);
+                intent = new Intent(this, EditLessonActivity.class);
+                intent.putExtra(Constants.LESSON_ID, mIdLesson);
+                startActivityForResult(intent, 1);
                 break;
             case R.id.action_delete_lesson:
                 break;
             case R.id.action_move_lesson:
                 mPrefsUtils.putLong(Constants.LESSON_ID, mIdLesson);
-                Intent intent = new Intent(this, MoveLessonActivity.class);
+                intent = new Intent(this, MoveLessonActivity.class);
                 intent.putExtra(Constants.LESSON_ID, mIdLesson);
                 startActivityForResult(intent, 1);
                 break;

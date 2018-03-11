@@ -353,6 +353,7 @@ public class DatabaseRepository implements Repository {
                             DatabaseContract.LessonTable._ID + " = ?", new String[]{String.valueOf(id)});
                 } while (cursor.moveToNext());
             }
+            cursor.close();
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -389,5 +390,76 @@ public class DatabaseRepository implements Repository {
         }
         c.close();
         return list;
+    }
+
+    @Override
+    public void editLesson(long lessonId, long learnerId) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String sqlQuery = "select s._id from study s join lesson l on l.study = s._id where l._id=" + String.valueOf(lessonId);
+        Cursor c = db.rawQuery(sqlQuery, null);
+        if (c.moveToFirst()) {
+            long id = c.getLong(0);
+            ContentValues cv = new ContentValues();
+            cv.put(DatabaseContract.StudyTable.COLUMN_NAME_LEARNER, learnerId);
+            db.update(DatabaseContract.StudyTable.TABLE_NAME, cv,
+                    DatabaseContract.StudyTable._ID + " = ?", new String[]{String.valueOf(id)});
+        }
+        c.close();
+    }
+
+    @Override
+    public void editOneLesson(long lessonId, long learnerId) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            Lesson lesson = getLesson(lessonId);
+            Study study = lesson.getStudy();
+            ContentValues cvStudy = new ContentValues();
+            cvStudy.put(DatabaseContract.StudyTable.COLUMN_NAME_FINISH_DATE, study.getDate().getTime());
+            cvStudy.put(DatabaseContract.StudyTable.COLUMN_NAME_LEARNER, learnerId);
+            long idStudy = db.insert(DatabaseContract.StudyTable.TABLE_NAME, null, cvStudy);
+            ContentValues cvLesson = new ContentValues();
+            cvLesson.put(DatabaseContract.LessonTable.COLUMN_NAME_STUDY, idStudy);
+            db.update(DatabaseContract.LessonTable.TABLE_NAME, cvLesson,
+                    DatabaseContract.LessonTable._ID + " = ?", new String[]{String.valueOf(lessonId)});
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    @Override
+    public void editManyLessons(long lessonId, long learnerId) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            Lesson lesson = getLesson(lessonId);
+            Study study = lesson.getStudy();
+            ContentValues cvStudy = new ContentValues();
+            cvStudy.put(DatabaseContract.StudyTable.COLUMN_NAME_FINISH_DATE, study.getDate().getTime());
+            cvStudy.put(DatabaseContract.StudyTable.COLUMN_NAME_LEARNER, learnerId);
+            long idStudy = db.insert(DatabaseContract.StudyTable.TABLE_NAME, null, cvStudy);
+            Cursor cursor = db.query(DatabaseContract.LessonTable.TABLE_NAME,
+                    null,
+                    DatabaseContract.LessonTable.COLUMN_NAME_DATE + " >= ?",
+                    new String[]{String.valueOf(lesson.getDate().getTime())},
+                    null,
+                    null,
+                    null);
+            if (cursor.moveToFirst()) {
+                do {
+                    long id = cursor.getLong(cursor.getColumnIndex(DatabaseContract.LessonTable._ID));
+                    ContentValues cvLesson = new ContentValues();
+                    cvLesson.put(DatabaseContract.LessonTable.COLUMN_NAME_STUDY, idStudy);
+                    db.update(DatabaseContract.LessonTable.TABLE_NAME, cvLesson,
+                            DatabaseContract.LessonTable._ID + " = ?", new String[]{String.valueOf(id)});
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
     }
 }
