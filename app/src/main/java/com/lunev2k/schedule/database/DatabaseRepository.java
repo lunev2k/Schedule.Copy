@@ -66,7 +66,8 @@ public class DatabaseRepository implements Repository {
         String[] projection = {
                 DatabaseContract.LearnerTable._ID,
                 DatabaseContract.LearnerTable.COLUMN_NAME_NAME,
-                DatabaseContract.LearnerTable.COLUMN_NAME_PAY
+                DatabaseContract.LearnerTable.COLUMN_NAME_PAY,
+                DatabaseContract.LearnerTable.COLUMN_NAME_CONTACT
         };
         String selection = DatabaseContract.LearnerTable.COLUMN_NAME_DELETED + " = ?";
         String[] selectionArgs = new String[]{"0"};
@@ -85,7 +86,8 @@ public class DatabaseRepository implements Repository {
             long id = c.getLong(c.getColumnIndex(DatabaseContract.LearnerTable._ID));
             String name = c.getString(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_NAME));
             int pay = c.getInt(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_PAY));
-            Learner learner = new Learner(id, name, pay);
+            long contact = c.getLong(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_CONTACT));
+            Learner learner = new Learner(id, name, pay, contact);
             list.add(learner);
         }
         c.close();
@@ -208,7 +210,8 @@ public class DatabaseRepository implements Repository {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = {
                 DatabaseContract.LearnerTable.COLUMN_NAME_NAME,
-                DatabaseContract.LearnerTable.COLUMN_NAME_PAY
+                DatabaseContract.LearnerTable.COLUMN_NAME_PAY,
+                DatabaseContract.LearnerTable.COLUMN_NAME_CONTACT
         };
         String selection = DatabaseContract.LearnerTable._ID + " = ?";
         String[] selectionArgs = new String[]{Long.toString(id)};
@@ -224,8 +227,9 @@ public class DatabaseRepository implements Repository {
         c.moveToFirst();
         String name = c.getString(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_NAME));
         int pay = c.getInt(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_PAY));
+        long contact = c.getLong(c.getColumnIndex(DatabaseContract.LearnerTable.COLUMN_NAME_CONTACT));
         c.close();
-        return new Learner(id, name, pay);
+        return new Learner(id, name, pay, contact);
     }
 
     @Override

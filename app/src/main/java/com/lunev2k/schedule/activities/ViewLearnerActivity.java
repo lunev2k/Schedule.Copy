@@ -1,7 +1,9 @@
 package com.lunev2k.schedule.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -56,6 +58,9 @@ public class ViewLearnerActivity extends AppCompatActivity {
             case R.id.action_delete_learner:
                 deleteLearner();
                 break;
+            case R.id.action_call_learner:
+                callLearner();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -76,6 +81,14 @@ public class ViewLearnerActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             finish();
         }
+    }
+
+    private void callLearner() {
+        long contactID = mRepository.getLearner(mLearnerId).getContact();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(contactID));
+        intent.setData(uri);
+        startActivity(intent);
     }
 
     private void deleteLearner() {

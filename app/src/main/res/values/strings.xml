@@ -43,4 +43,5 @@
     <string name="title_delete_learner">Delete Learner</string>
     <string name="message_delete_learner">Sure are delete learner?</string>
     <string name="message_delete_lesson">Sure are delete lesson?</string>
+    <string name="title_call_learner">Call</string>
 </resources>
