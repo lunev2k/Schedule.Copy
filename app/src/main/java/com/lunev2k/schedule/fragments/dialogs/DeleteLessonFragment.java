@@ -2,7 +2,6 @@ package com.lunev2k.schedule.fragments.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -42,12 +41,7 @@ public class DeleteLessonFragment extends DialogFragment {
                 getString(R.string.title_all_lessons)};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.title_delete_lesson)
-                .setSingleChoiceItems(charSequence, 0, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        id = which;
-                    }
-                })
+                .setSingleChoiceItems(charSequence, 0, (dialog, which) -> id = which)
                 .setPositiveButton(android.R.string.ok, (dialogInterface, item) -> {
                     if (id >= 0) {
                         listener.onDeteleLessonDialogListener(id);

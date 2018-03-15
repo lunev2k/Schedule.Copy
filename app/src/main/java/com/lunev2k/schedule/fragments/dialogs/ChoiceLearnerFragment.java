@@ -43,7 +43,7 @@ public class ChoiceLearnerFragment extends DialogFragment {
         App.getComponent().inject(this);
         final List<Learner>[] list = new List[]{new ArrayList<>()};
         list[0] = mRepository.getLearners();
-        ArrayAdapter<Learner> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_singlechoice, list[0]);
+        ArrayAdapter<Learner> adapter = new ArrayAdapter<>(getActivity(), R.layout.item_dialog_singlechoice, list[0]);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.title_choice_learner)
                 .setSingleChoiceItems(adapter, -1, (dialogInterface, item) -> {
