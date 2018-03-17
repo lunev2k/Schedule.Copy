@@ -20,7 +20,6 @@ public class DateTimeUtil {
     }
 
     public static String getFormatDateTime(Date datetime) {
-        return String.format("%s %s", getFormatDate(datetime), getFormatTime(datetime));
+        return String.format("%s %s", getFormatTime(datetime), getFormatDate(datetime));
     }
-
 }
