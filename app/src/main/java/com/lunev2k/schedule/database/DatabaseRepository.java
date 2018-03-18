@@ -242,6 +242,7 @@ public class DatabaseRepository implements Repository {
         };
         String selection = DatabaseContract.LessonTable._ID + " = ?";
         String[] selectionArgs = new String[]{Long.toString(id)};
+        String orderBy = DatabaseContract.LessonTable.COLUMN_NAME_DATE;
         Cursor c = db.query(
                 DatabaseContract.LessonTable.TABLE_NAME,
                 projection,
@@ -249,7 +250,7 @@ public class DatabaseRepository implements Repository {
                 selectionArgs,
                 null,
                 null,
-                null
+                orderBy
         );
         c.moveToFirst();
         Date date = new Date(c.getLong(c.getColumnIndex(DatabaseContract.LessonTable.COLUMN_NAME_DATE)));
