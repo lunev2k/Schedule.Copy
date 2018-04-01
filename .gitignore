@@ -1,12 +1,20 @@
+<<<<<<< HEAD
 .DS_Store
 *.iml
 *.log
 *.jks
+=======
+*.iml
+>>>>>>> 08446c743503ec501ec677135c562754b23d3001
 .gradle
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
+<<<<<<< HEAD
 /app/release
+=======
+.DS_Store
+>>>>>>> 08446c743503ec501ec677135c562754b23d3001
 /build
 /captures
 .externalNativeBuild
