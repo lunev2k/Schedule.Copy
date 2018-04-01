@@ -4,8 +4,16 @@
     android:layout_height="match_parent"
     tools:context="com.lunev2k.schedule.fragments.LessonsFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvLessons"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/pagerTabStrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top" />
+    </android.support.v4.view.ViewPager>
+
 </FrameLayout>

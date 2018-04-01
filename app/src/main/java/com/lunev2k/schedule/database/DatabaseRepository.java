@@ -12,6 +12,7 @@ import com.lunev2k.schedule.model.Lesson;
 import com.lunev2k.schedule.model.LessonsItem;
 import com.lunev2k.schedule.model.Study;
 import com.lunev2k.schedule.model.TotalItem;
+import com.lunev2k.schedule.utils.DateTimeUtil;
 import com.lunev2k.schedule.utils.PrefsUtils;
 import com.lunev2k.schedule.utils.RangeDateUtil;
 
@@ -538,5 +539,30 @@ public class DatabaseRepository implements Repository {
         } finally {
             db.endTransaction();
         }
+    }
+
+    @Override
+    public int getCountDays() {
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.setTime(mRangeDateUtil.getStartDate());
+        Calendar finishCalendar = Calendar.getInstance();
+        finishCalendar.setTime(mRangeDateUtil.getFinishDate());
+        return (int) ((finishCalendar.getTimeInMillis() - startCalendar.getTimeInMillis()) / (1000 * 60 * 60 * 24)) + 1;
+    }
+
+    @Override
+    public CharSequence getFormatDateByPosition(int position) {
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.setTime(mRangeDateUtil.getStartDate());
+        startCalendar.add(Calendar.DATE, position);
+        return DateTimeUtil.getFormatDateWithDay(startCalendar.getTime());
+    }
+
+    @Override
+    public Date getDateByPosition(int position) {
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.setTime(mRangeDateUtil.getStartDate());
+        startCalendar.add(Calendar.DATE, position);
+        return startCalendar.getTime();
     }
 }

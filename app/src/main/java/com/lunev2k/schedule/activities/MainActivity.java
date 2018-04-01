@@ -6,12 +6,14 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.fragments.LearnersFragment;
+import com.lunev2k.schedule.fragments.LessonPageFragment;
 import com.lunev2k.schedule.fragments.LessonsFragment;
 import com.lunev2k.schedule.fragments.TotalsFragment;
 import com.lunev2k.schedule.model.LearnersItem;
@@ -26,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements
-        LessonsFragment.OnLessonItemClickListener,
+        LessonPageFragment.OnLessonItemClickListener,
         TotalsFragment.OnTotalItemClickListener,
         LearnersFragment.OnLearnerItemClickListener {
 
@@ -106,13 +108,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLessonItemClickListener(LessonsItem lesson) {
-        Intent intent = new Intent(this, ViewLessonActivity.class);
-        intent.putExtra(Constants.LESSON_ID, lesson.getId());
-        startActivity(intent);
-    }
-
-    @Override
     public void onTotalItemClickListener(TotalItem total) {
         Intent intent = new Intent(this, DayActivity.class);
         intent.putExtra(Constants.DAY_ID, total.getDate().getTime());
@@ -174,5 +169,13 @@ public class MainActivity extends AppCompatActivity implements
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame, fragment)
                 .commit();
+    }
+
+    @Override
+    public void onLessonItemClickListener(LessonsItem lesson) {
+        Log.d("TAG", lesson.toString());
+        Intent intent = new Intent(this, ViewLessonActivity.class);
+        intent.putExtra(Constants.LESSON_ID, lesson.getId());
+        startActivity(intent);
     }
 }

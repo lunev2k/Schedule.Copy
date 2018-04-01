@@ -14,6 +14,11 @@ public class DateTimeUtil {
         return outputformat.format(date);
     }
 
+    public static String getFormatDateWithDay(Date date) {
+        SimpleDateFormat outputformat = new SimpleDateFormat(" E dd.MM.yyyy", Locale.getDefault());
+        return outputformat.format(date);
+    }
+
     public static String getFormatTime(Date time) {
         SimpleDateFormat outputformat = new SimpleDateFormat("HH:mm", Locale.getDefault());
         return outputformat.format(time);

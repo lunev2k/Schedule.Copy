@@ -56,4 +56,9 @@ public interface Repository {
 
     void deleteManyLessons(long lessonId);
 
+    int getCountDays();
+
+    CharSequence getFormatDateByPosition(int position);
+
+    Date getDateByPosition(int position);
 }
