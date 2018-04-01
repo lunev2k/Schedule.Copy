@@ -4,7 +4,8 @@
 *.jks
 .gradle
 /local.properties
-/.idea
+/.idea/workspace.xml
+/.idea/libraries
 /app/release
 /build
 /captures
