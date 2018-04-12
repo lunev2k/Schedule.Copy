@@ -26,7 +26,6 @@ import butterknife.ButterKnife;
 public class LessonPageFragment extends Fragment {
 
     static final String ARGUMENT_PAGE_DATE = "arg_page_date";
-    static final String SAVE_PAGE_NUMBER = "save_page_number";
     @Inject
     Repository mRepository;
     @BindView(R.id.rvLessons)

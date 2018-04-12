@@ -20,10 +20,12 @@ import com.lunev2k.schedule.fragments.dialogs.DatePickerFragment;
 import com.lunev2k.schedule.fragments.dialogs.TimePickerFragment;
 import com.lunev2k.schedule.model.Learner;
 import com.lunev2k.schedule.model.Lesson;
+import com.lunev2k.schedule.utils.Constants;
 import com.lunev2k.schedule.utils.DateTimeUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -170,7 +172,10 @@ public class AddLessonActivity extends AppCompatActivity implements ChoiceLearne
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Date date = new Date(getIntent().getLongExtra(Constants.SELECT_DATE, 0));
         startDatetime = Calendar.getInstance();
+        startDatetime.setTime(date);
+        etStartDate.setText(DateTimeUtil.getFormatDate(startDatetime.getTime()));
         finishDate = Calendar.getInstance();
     }
 
