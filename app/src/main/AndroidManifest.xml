@@ -3,6 +3,8 @@
     package="com.lunev2k.schedule">
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".App"
@@ -103,6 +105,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.lunev2k.schedule.activities.ViewLessonActivity" />
         </activity>
+        <activity android:name=".activities.SettingsActivity"></activity>
     </application>
 
 </manifest>

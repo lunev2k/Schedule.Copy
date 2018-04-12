@@ -45,4 +45,7 @@
     <string name="message_delete_learner">Уверены, что хотите удалить ученика?</string>
     <string name="message_delete_lesson">Уверены, что хотите удалить урок?</string>
     <string name="title_call_learner">Звонок</string>
+    <string name="title_button_export">Экспорт</string>
+    <string name="title_button_import">Импорт</string>
+    <string name="title_settings">Настройки</string>
 </resources>

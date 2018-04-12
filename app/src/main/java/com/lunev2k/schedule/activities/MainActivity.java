@@ -88,6 +88,9 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.action_range_date:
                 startActivity(new Intent(this, RangeDateActivity.class));
                 break;
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                break;
         }
 
         return super.onOptionsItemSelected(item);
