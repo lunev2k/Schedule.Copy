@@ -99,7 +99,8 @@ public class EditLessonActivity extends AppCompatActivity implements ChoiceLearn
 
     private void fillData() {
         Lesson lesson = mRepository.getLesson(mLessonId);
-        tilLearnerName.getEditText().setText(lesson.getLearner().getName());
+        mLearner = lesson.getLearner();
+        tilLearnerName.getEditText().setText(mLearner.getName());
         rgRepeat.setVisibility(lesson.getStudy().getDate() == null ? View.GONE : View.VISIBLE);
         rbOne.setChecked(true);
     }
