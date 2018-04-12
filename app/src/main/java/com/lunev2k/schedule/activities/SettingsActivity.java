@@ -97,10 +97,10 @@ public class SettingsActivity extends AppCompatActivity {
                         dc.close();
                     }
                 }
-                Toast.makeText(getApplicationContext(), "Restore Successful!",
+                Toast.makeText(getApplicationContext(), R.string.text_restore_successful,
                         Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
-                Toast.makeText(getApplicationContext(), "Restore Failed! " + e.getMessage(), Toast.LENGTH_SHORT)
+                Toast.makeText(getApplicationContext(), getString(R.string.text_restore_failed) + e.getMessage(), Toast.LENGTH_SHORT)
                         .show();
             }
         } finally {
@@ -132,10 +132,10 @@ public class SettingsActivity extends AppCompatActivity {
                         dc.close();
                     }
                 }
-                Toast.makeText(getApplicationContext(), "Backup Successful!",
+                Toast.makeText(getApplicationContext(), R.string.text_backup_successful,
                         Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
-                Toast.makeText(getApplicationContext(), "Backup Failed! " + e.getMessage(), Toast.LENGTH_SHORT)
+                Toast.makeText(getApplicationContext(), getString(R.string.text_backup_failed) + e.getMessage(), Toast.LENGTH_SHORT)
                         .show();
             }
         } finally {
