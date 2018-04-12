@@ -48,4 +48,8 @@
     <string name="title_button_export">Экспорт</string>
     <string name="title_button_import">Импорт</string>
     <string name="title_settings">Настройки</string>
+    <string name="text_backup_successful">Успешная архивация</string>
+    <string name="text_restore_successful">Успешное восстановление</string>
+    <string name="text_backup_failed">Ошибка архивации</string>
+    <string name="text_restore_failed">Ошибка восстановления</string>
 </resources>

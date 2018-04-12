@@ -172,7 +172,7 @@ public class AddLessonActivity extends AppCompatActivity implements ChoiceLearne
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Date date = new Date(getIntent().getLongExtra(Constants.SELECT_DATE, 0));
+        Date date = new Date(getIntent().getLongExtra(Constants.SELECT_DATE, new Date().getTime()));
         startDatetime = Calendar.getInstance();
         startDatetime.setTime(date);
         etStartDate.setText(DateTimeUtil.getFormatDate(startDatetime.getTime()));

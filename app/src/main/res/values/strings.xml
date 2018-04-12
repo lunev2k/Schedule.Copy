@@ -47,4 +47,8 @@
     <string name="title_button_export">Export</string>
     <string name="title_button_import">Import</string>
     <string name="title_settings">Settiings</string>
+    <string name="text_backup_successful">Backup Successful!</string>
+    <string name="text_backup_failed">Backup Failed!</string>
+    <string name="text_restore_successful">Restore Successful!</string>
+    <string name="text_restore_failed">Restore Failed!</string>
 </resources>
