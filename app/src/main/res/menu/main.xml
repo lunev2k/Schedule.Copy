@@ -17,5 +17,9 @@
         android:icon="@drawable/ic_date_range_white_24px"
         android:title="@string/title_range_date"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/title_settings"
+        app:showAsAction="never" />
 
 </menu>

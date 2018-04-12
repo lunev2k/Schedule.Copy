@@ -44,4 +44,7 @@
     <string name="message_delete_learner">Sure are delete learner?</string>
     <string name="message_delete_lesson">Sure are delete lesson?</string>
     <string name="title_call_learner">Call</string>
+    <string name="title_button_export">Export</string>
+    <string name="title_button_import">Import</string>
+    <string name="title_settings">Settiings</string>
 </resources>
