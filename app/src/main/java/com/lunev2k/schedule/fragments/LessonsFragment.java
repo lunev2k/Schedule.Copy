@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,11 @@ import android.view.ViewGroup;
 import com.lunev2k.schedule.App;
 import com.lunev2k.schedule.R;
 import com.lunev2k.schedule.database.Repository;
+import com.lunev2k.schedule.utils.Constants;
+import com.lunev2k.schedule.utils.DateTimeUtil;
 import com.lunev2k.schedule.utils.PrefsUtils;
+
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -42,6 +47,24 @@ public class LessonsFragment extends Fragment {
         App.getComponent().inject(this);
         pagerAdapter = new LessonPagerAdapter(getActivity().getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Date date = mRepository.getDateByPosition(position);
+                mPrefsUtils.putLong(Constants.SELECT_DATE, date.getTime());
+                Log.d(getClass().getName(), DateTimeUtil.getFormatDate(date));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         return view;
     }
 

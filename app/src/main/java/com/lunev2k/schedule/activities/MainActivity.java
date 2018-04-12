@@ -22,6 +22,8 @@ import com.lunev2k.schedule.model.TotalItem;
 import com.lunev2k.schedule.utils.Constants;
 import com.lunev2k.schedule.utils.PrefsUtils;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -83,7 +85,8 @@ public class MainActivity extends AppCompatActivity implements
                 startActivity(new Intent(this, AddLearnerActivity.class));
                 break;
             case R.id.action_add_lesson:
-                startActivity(new Intent(this, AddLessonActivity.class));
+                Date date = new Date(mPrefsUtils.getLong(Constants.SELECT_DATE));
+                startActivity(new Intent(this, AddLessonActivity.class).putExtra(Constants.SELECT_DATE, date.getTime()));
                 break;
             case R.id.action_range_date:
                 startActivity(new Intent(this, RangeDateActivity.class));

@@ -7,6 +7,7 @@ public class Constants {
     public static final String LESSON_ID = "lesson_id";
     public static final String PAYMENT_LEARNER = "payment";
     public static final String DAY_ID = "dayId";
+    public static final String SELECT_DATE = "selectDate";
 
     private Constants() {
     }
